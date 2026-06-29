@@ -1,0 +1,170 @@
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+from statistics import mean
+from typing import Any
+
+from .network import LatencyRunResult
+
+
+def write_network_reports(
+    out_dir: Path,
+    scenario: dict[str, Any],
+    results: list[LatencyRunResult],
+) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    summary = {
+        "scenario": scenario,
+        "aggregate": aggregate_latency_results(results),
+        "runs": [result_to_dict(result, include_metrics=False) for result in results],
+    }
+    (out_dir / "summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
+    write_latency_csv(out_dir / "latency_results.csv", results)
+    write_network_markdown(out_dir / "report.md", scenario, summary)
+
+
+def aggregate_latency_results(results: list[LatencyRunResult]) -> dict[str, Any]:
+    output: dict[str, Any] = {}
+    for label in sorted({result.label for result in results}):
+        label_results = [result for result in results if result.label == label]
+        output[label] = {
+            "replications": len(label_results),
+            "mean_split_blocks": mean(r.split_blocks for r in label_results),
+            "mean_split_rate": mean(r.split_blocks / r.blocks for r in label_results),
+            "mean_unique_snapshots": mean(r.mean_unique_snapshots for r in label_results),
+            "mean_nodes_on_canonical": mean(r.mean_nodes_on_canonical for r in label_results),
+            "mean_hashrate_on_canonical": mean(r.mean_hashrate_on_canonical for r in label_results),
+            "mean_p50_convergence_seconds": mean(r.p50_convergence_seconds for r in label_results),
+            "mean_p95_convergence_seconds": mean(r.p95_convergence_seconds for r in label_results),
+            "mean_p99_convergence_seconds": mean(r.p99_convergence_seconds for r in label_results),
+            "mean_estimated_payload_mb": mean(r.estimated_payload_mb for r in label_results),
+        }
+    return output
+
+
+def result_to_dict(result: LatencyRunResult, include_metrics: bool) -> dict[str, Any]:
+    data = {
+        "label": result.label,
+        "seed": result.seed,
+        "blocks": result.blocks,
+        "node_count": result.node_count,
+        "peer_degree": result.peer_degree,
+        "split_blocks": result.split_blocks,
+        "mean_unique_snapshots": result.mean_unique_snapshots,
+        "mean_nodes_on_canonical": result.mean_nodes_on_canonical,
+        "mean_hashrate_on_canonical": result.mean_hashrate_on_canonical,
+        "p50_convergence_seconds": result.p50_convergence_seconds,
+        "p95_convergence_seconds": result.p95_convergence_seconds,
+        "p99_convergence_seconds": result.p99_convergence_seconds,
+        "p95_node_lag_seconds": result.p95_node_lag_seconds,
+        "estimated_payload_mb": result.estimated_payload_mb,
+    }
+    if include_metrics:
+        data["metrics"] = [metric.__dict__ for metric in result.metrics]
+    return data
+
+
+def write_latency_csv(path: Path, results: list[LatencyRunResult]) -> None:
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            [
+                "label",
+                "seed",
+                "blocks",
+                "node_count",
+                "peer_degree",
+                "split_blocks",
+                "split_rate",
+                "mean_unique_snapshots",
+                "mean_nodes_on_canonical",
+                "mean_hashrate_on_canonical",
+                "p50_convergence_seconds",
+                "p95_convergence_seconds",
+                "p99_convergence_seconds",
+                "p95_node_lag_seconds",
+                "estimated_payload_mb",
+            ]
+        )
+        for result in results:
+            writer.writerow(
+                [
+                    result.label,
+                    result.seed,
+                    result.blocks,
+                    result.node_count,
+                    result.peer_degree,
+                    result.split_blocks,
+                    f"{result.split_blocks / result.blocks:.8f}",
+                    f"{result.mean_unique_snapshots:.8f}",
+                    f"{result.mean_nodes_on_canonical:.8f}",
+                    f"{result.mean_hashrate_on_canonical:.8f}",
+                    f"{result.p50_convergence_seconds:.8f}",
+                    f"{result.p95_convergence_seconds:.8f}",
+                    f"{result.p99_convergence_seconds:.8f}",
+                    f"{result.p95_node_lag_seconds:.8f}",
+                    f"{result.estimated_payload_mb:.6f}",
+                ]
+            )
+
+
+def write_network_markdown(path: Path, scenario: dict[str, Any], summary: dict[str, Any]) -> None:
+    lines = []
+    lines.append(f"# GridPool Network Latency Report: {scenario.get('name', 'unnamed')}")
+    lines.append("")
+    lines.append("Status: generated by `run_network_simulation.py`.")
+    lines.append("")
+    lines.append("## Scenario")
+    lines.append("")
+    lines.append("| Parameter | Value |")
+    lines.append("| --- | ---: |")
+    for key in [
+        "blocks",
+        "replications",
+        "node_count",
+        "peer_degree",
+        "block_interval_seconds",
+        "shares_per_network_block_at_full_team",
+        "shared_slots",
+        "reserve_multiplier",
+    ]:
+        if key in scenario:
+            lines.append(f"| `{key}` | `{scenario[key]}` |")
+    lines.append("")
+    lines.append("## Relay Profile Comparison")
+    lines.append("")
+    lines.append(
+        "| Relay Profile | Replications | Mean Split Rate | Mean Unique Snapshots | Mean Nodes On Canonical | Mean Hashrate On Canonical | P50 Convergence sec | P95 Convergence sec | P99 Convergence sec | Est Payload MB |"
+    )
+    lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
+    for label, data in summary["aggregate"].items():
+        lines.append(
+            "| {label} | {reps} | {split:.4%} | {uniq:.3f} | {nodes:.2f} | {hashrate:.4f} | {p50:.4f} | {p95:.4f} | {p99:.4f} | {mb:.2f} |".format(
+                label=label,
+                reps=data["replications"],
+                split=data["mean_split_rate"],
+                uniq=data["mean_unique_snapshots"],
+                nodes=data["mean_nodes_on_canonical"],
+                hashrate=data["mean_hashrate_on_canonical"],
+                p50=data["mean_p50_convergence_seconds"],
+                p95=data["mean_p95_convergence_seconds"],
+                p99=data["mean_p99_convergence_seconds"],
+                mb=data["mean_estimated_payload_mb"],
+            )
+        )
+    lines.append("")
+    lines.append("## Notes")
+    lines.append("")
+    lines.append("- This model measures whether nodes have the same top unpaid proofs when their Bitcoin-block notification arrives.")
+    lines.append("- It is an approximation of gossip propagation using bounded peer graph hop counts, not a packet-level network emulator.")
+    lines.append("- Split rate means more than one active snapshot existed at block-notification time.")
+    lines.append("- Hashrate on canonical is weighted by simulated node hashrate, so a split involving tiny nodes is less severe than a 50/50 team split.")
+    lines.append("- Estimated payload is a lower-bound delivery estimate: relayable reserve-surviving shares * node count * profile payload size.")
+    lines.append("- Payment transitions, intentional censorship, and active heaviest-state adoption are not modeled in this pass.")
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")

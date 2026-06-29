@@ -1,0 +1,33 @@
+{
+  "name": "pool_hopping_external_mode_299",
+  "engine": "economic",
+  "base_scenario": "scenarios/pool_hopping.json",
+  "overrides": {
+    "blocks": 50000,
+    "replications": 64,
+    "shared_slots": 299,
+    "total_slots": 300,
+    "reserve_multiplier": 3,
+    "paired_strategy_seeds": true,
+    "shares_per_network_block_at_full_team": 350
+  },
+  "matrix": [
+    {
+      "name": "external_payout_mode",
+      "path": "external_payout_mode",
+      "values": [
+        "deterministic_fpps",
+        "solo"
+      ]
+    },
+    {
+      "name": "external_fee_rate",
+      "path": "external_fee_rate",
+      "values": [
+        0.0,
+        0.005,
+        0.02
+      ]
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "name": "pool_hopping_physical_scale_solo_299",
+  "engine": "economic",
+  "base_scenario": "scenarios/pool_hopping.json",
+  "overrides": {
+    "blocks": 50000,
+    "replications": 64,
+    "shared_slots": 299,
+    "total_slots": 300,
+    "reserve_multiplier": 3,
+    "paired_strategy_seeds": true,
+    "shares_per_network_block_at_full_team": 350,
+    "external_payout_mode": "solo",
+    "external_fee_rate": 0.0,
+    "fees_btc": 0.05
+  },
+  "matrix": [
+    {
+      "name": "scale_case",
+      "values": [
+        {
+          "label": "target_100ph_team_1eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 100 },
+            { "path": "research_team_hashrate_ph", "value": 1000 },
+            { "path": "pool_network_share", "value": 0.0016666666666666668 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_315", "hashrate": 315.0 },
+                { "id": "farm_225", "hashrate": 225.0 },
+                { "id": "hopper_15", "hashrate": 100.0 },
+                { "id": "garage_135", "hashrate": 135.0 },
+                { "id": "solar_90", "hashrate": 90.0 },
+                { "id": "bitaxe_45", "hashrate": 45.0 },
+                { "id": "lotto_90", "hashrate": 90.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_300ph_team_1eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 300 },
+            { "path": "research_team_hashrate_ph", "value": 1000 },
+            { "path": "pool_network_share", "value": 0.0016666666666666668 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_245", "hashrate": 245.0 },
+                { "id": "farm_175", "hashrate": 175.0 },
+                { "id": "hopper_15", "hashrate": 300.0 },
+                { "id": "garage_105", "hashrate": 105.0 },
+                { "id": "solar_70", "hashrate": 70.0 },
+                { "id": "bitaxe_35", "hashrate": 35.0 },
+                { "id": "lotto_70", "hashrate": 70.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_300ph_team_3eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 300 },
+            { "path": "research_team_hashrate_ph", "value": 3000 },
+            { "path": "pool_network_share", "value": 0.005 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_945", "hashrate": 945.0 },
+                { "id": "farm_675", "hashrate": 675.0 },
+                { "id": "hopper_15", "hashrate": 300.0 },
+                { "id": "garage_405", "hashrate": 405.0 },
+                { "id": "solar_270", "hashrate": 270.0 },
+                { "id": "bitaxe_135", "hashrate": 135.0 },
+                { "id": "lotto_270", "hashrate": 270.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_300ph_team_10eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 300 },
+            { "path": "research_team_hashrate_ph", "value": 10000 },
+            { "path": "pool_network_share", "value": 0.016666666666666666 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_3395", "hashrate": 3395.0 },
+                { "id": "farm_2425", "hashrate": 2425.0 },
+                { "id": "hopper_15", "hashrate": 300.0 },
+                { "id": "garage_1455", "hashrate": 1455.0 },
+                { "id": "solar_970", "hashrate": 970.0 },
+                { "id": "bitaxe_485", "hashrate": 485.0 },
+                { "id": "lotto_970", "hashrate": 970.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_1eh_team_3eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 1000 },
+            { "path": "research_team_hashrate_ph", "value": 3000 },
+            { "path": "pool_network_share", "value": 0.005 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_700", "hashrate": 700.0 },
+                { "id": "farm_500", "hashrate": 500.0 },
+                { "id": "hopper_15", "hashrate": 1000.0 },
+                { "id": "garage_300", "hashrate": 300.0 },
+                { "id": "solar_200", "hashrate": 200.0 },
+                { "id": "bitaxe_100", "hashrate": 100.0 },
+                { "id": "lotto_200", "hashrate": 200.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_1eh_team_10eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 1000 },
+            { "path": "research_team_hashrate_ph", "value": 10000 },
+            { "path": "pool_network_share", "value": 0.016666666666666666 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_3150", "hashrate": 3150.0 },
+                { "id": "farm_2250", "hashrate": 2250.0 },
+                { "id": "hopper_15", "hashrate": 1000.0 },
+                { "id": "garage_1350", "hashrate": 1350.0 },
+                { "id": "solar_900", "hashrate": 900.0 },
+                { "id": "bitaxe_450", "hashrate": 450.0 },
+                { "id": "lotto_900", "hashrate": 900.0 }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "target_3eh_team_10eh",
+          "patches": [
+            { "path": "research_target_hashrate_ph", "value": 3000 },
+            { "path": "research_team_hashrate_ph", "value": 10000 },
+            { "path": "pool_network_share", "value": 0.016666666666666666 },
+            {
+              "path": "miners",
+              "value": [
+                { "id": "anchor_2450", "hashrate": 2450.0 },
+                { "id": "farm_1750", "hashrate": 1750.0 },
+                { "id": "hopper_15", "hashrate": 3000.0 },
+                { "id": "garage_1050", "hashrate": 1050.0 },
+                { "id": "solar_700", "hashrate": 700.0 },
+                { "id": "bitaxe_350", "hashrate": 350.0 },
+                { "id": "lotto_700", "hashrate": 700.0 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+from typing import Any
+
+from .engine import SimulationResult, aggregate_results
+from .stats import summarize
+
+
+def write_reports(
+    out_dir: Path,
+    scenario: dict[str, Any],
+    results: list[SimulationResult],
+) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    expected_by_miner = expected_network_ev_by_miner(scenario)
+    summary = {
+        "scenario": scenario,
+        "aggregate": aggregate_results(results),
+        "expected_network_ev_by_miner": expected_by_miner,
+        "paired_strategy_comparisons": paired_strategy_comparisons(scenario, results, expected_by_miner),
+        "runs": [result_to_dict(result) for result in results],
+    }
+
+    (out_dir / "summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True),
+        encoding="utf-8",
+    )
+    write_miner_csv(out_dir / "miner_results.csv", results)
+    write_paired_delta_csv(out_dir / "paired_strategy_deltas.csv", summary["paired_strategy_comparisons"])
+    write_markdown_report(out_dir / "report.md", scenario, summary)
+
+
+def result_to_dict(result: SimulationResult) -> dict[str, Any]:
+    return {
+        "label": result.label,
+        "seed": result.seed,
+        "blocks": result.blocks,
+        "pool_blocks": result.pool_blocks,
+        "snapshots": result.snapshots,
+        "final_work_set_count": result.final_work_set_count,
+        "final_snapshot_count": result.final_snapshot_count,
+        "support_btc": result.support_btc,
+        "metadata": result.metadata,
+        "miners": {
+            miner_id: {
+                "hashrate": ledger.hashrate,
+                "grid_shared_btc": ledger.grid_shared_btc,
+                "grid_slot0_btc": ledger.grid_slot0_btc,
+                "external_btc": ledger.external_btc,
+                "total_btc": ledger.total_btc,
+                "shared_slots_paid": ledger.shared_slots_paid,
+                "shared_payout_events": ledger.shared_payout_events,
+                "slot0_payout_events": ledger.slot0_payout_events,
+                "active_blocks": ledger.active_blocks,
+                "inactive_blocks": ledger.inactive_blocks,
+                "shares_submitted": ledger.shares_submitted,
+                "block_finds": ledger.block_finds,
+                "withheld_blocks": ledger.withheld_blocks,
+                "snapshot_slot_observations": ledger.snapshot_slot_observations,
+                "first_grid_payout_block": ledger.first_grid_payout_block,
+            }
+            for miner_id, ledger in result.miners.items()
+        },
+    }
+
+
+def write_miner_csv(path: Path, results: list[SimulationResult]) -> None:
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            [
+                "label",
+                "seed",
+                "miner_id",
+                "hashrate",
+                "grid_shared_btc",
+                "grid_slot0_btc",
+                "external_btc",
+                "total_btc",
+                "shared_slots_paid",
+                "shared_payout_events",
+                "slot0_payout_events",
+                "active_blocks",
+                "inactive_blocks",
+                "shares_submitted",
+                "block_finds",
+                "withheld_blocks",
+                "snapshot_slot_observations",
+                "first_grid_payout_block",
+                "pool_blocks",
+            ]
+        )
+        for result in results:
+            for miner_id, ledger in sorted(result.miners.items()):
+                writer.writerow(
+                    [
+                        result.label,
+                        result.seed,
+                        miner_id,
+                        ledger.hashrate,
+                        f"{ledger.grid_shared_btc:.12f}",
+                        f"{ledger.grid_slot0_btc:.12f}",
+                        f"{ledger.external_btc:.12f}",
+                        f"{ledger.total_btc:.12f}",
+                        ledger.shared_slots_paid,
+                        ledger.shared_payout_events,
+                        ledger.slot0_payout_events,
+                        ledger.active_blocks,
+                        ledger.inactive_blocks,
+                        ledger.shares_submitted,
+                        ledger.block_finds,
+                        ledger.withheld_blocks,
+                        ledger.snapshot_slot_observations,
+                        ledger.first_grid_payout_block if ledger.first_grid_payout_block is not None else "",
+                        result.pool_blocks,
+                    ]
+                )
+
+
+def write_markdown_report(path: Path, scenario: dict[str, Any], summary: dict[str, Any]) -> None:
+    lines = []
+    lines.append(f"# GridPool Simulation Report: {scenario.get('name', 'unnamed')}")
+    lines.append("")
+    lines.append("Status: generated by `run_simulation.py`.")
+    lines.append("")
+    lines.append("## Scenario")
+    lines.append("")
+    lines.append("| Parameter | Value |")
+    lines.append("| --- | ---: |")
+    for key in [
+        "blocks",
+        "replications",
+        "pool_network_share",
+        "shares_per_network_block_at_full_team",
+        "shared_slots",
+        "reserve_multiplier",
+        "support_slot_enabled",
+        "external_fee_rate",
+        "external_payout_mode",
+    ]:
+        if key in scenario:
+            lines.append(f"| `{key}` | `{scenario[key]}` |")
+    lines.append("")
+    lines.append("## Strategy Summary")
+    lines.append("")
+    lines.append("| Label | Replications | Mean Pool Blocks | Std Pool Blocks | Mean Support BTC |")
+    lines.append("| --- | ---: | ---: | ---: | ---: |")
+    aggregate = summary["aggregate"]
+    for label, data in aggregate.items():
+        lines.append(
+            "| {label} | {reps} | {pool:.3f} | {std:.3f} | {support:.8f} |".format(
+                label=label,
+                reps=data["replications"],
+                pool=data["mean_pool_blocks"],
+                std=data["std_pool_blocks"],
+                support=data["mean_support_btc"],
+            )
+        )
+    lines.append("")
+    lines.append("## Miner Outcomes")
+    lines.append("")
+    lines.append(
+        "| Label | Miner | Mean Total BTC | 95% CI Total BTC | Gross Hashrate EV BTC | EV Ratio | Std Total BTC | Mean Grid BTC | Mean External BTC | Mean Shared Slots Paid | Mean Shared Payout Events | Mean Slot-0 Events | Mean Blocks Found | Mean Withheld Blocks | Mean Active Blocks | Mean Snapshot Slots Observed |"
+    )
+    lines.append("| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
+    expected = summary.get("expected_network_ev_by_miner", {})
+    for label, data in aggregate.items():
+        for miner_id, miner in data["miners"].items():
+            expected_btc = float(expected.get(miner_id, 0.0))
+            ev_ratio = miner["mean_total_btc"] / expected_btc if expected_btc > 0 else 0.0
+            lines.append(
+                "| {label} | `{miner_id}` | {total:.8f} | [{ci_low:.8f}, {ci_high:.8f}] | {expected:.8f} | {ratio:.4f} | {std:.8f} | {grid:.8f} | {external:.8f} | {shared_slots:.3f} | {shared_events:.3f} | {slot0_events:.3f} | {blocks:.3f} | {withheld:.3f} | {active:.1f} | {slots:.1f} |".format(
+                    label=label,
+                    miner_id=miner_id,
+                    total=miner["mean_total_btc"],
+                    ci_low=miner["ci95_total_btc_low"],
+                    ci_high=miner["ci95_total_btc_high"],
+                    expected=expected_btc,
+                    ratio=ev_ratio,
+                    std=miner["std_total_btc"],
+                    grid=miner["mean_grid_btc"],
+                    external=miner["mean_external_btc"],
+                    shared_slots=miner["mean_shared_slots_paid"],
+                    shared_events=miner["mean_shared_payout_events"],
+                    slot0_events=miner["mean_slot0_payout_events"],
+                    blocks=miner["mean_block_finds"],
+                    withheld=miner["mean_withheld_blocks"],
+                    active=miner["mean_active_blocks"],
+                    slots=miner["mean_snapshot_slot_observations"],
+                )
+            )
+    paired = summary.get("paired_strategy_comparisons", {})
+    if paired.get("comparisons"):
+        lines.append("")
+        lines.append("## Paired Strategy Deltas Vs Baseline")
+        lines.append("")
+        lines.append(f"Baseline: `{paired['baseline_label']}`. Deltas use common replication seeds where available.")
+        lines.append("")
+        lines.append("| Strategy | Miner | N | Mean Delta BTC | 95% CI Delta BTC | Mean Delta EV Ratio | Mean Delta Shared Slots Paid | Mean Delta Shared Payout Events |")
+        lines.append("| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+        for label, comparison in paired["comparisons"].items():
+            for miner_id, miner in comparison["miners"].items():
+                lines.append(
+                    "| {label} | `{miner}` | {n} | {delta:.8f} | [{low:.8f}, {high:.8f}] | {ev_delta:.6f} | {slots:.3f} | {events:.3f} |".format(
+                        label=label,
+                        miner=miner_id,
+                        n=int(miner["delta_total_btc"]["n"]),
+                        delta=miner["delta_total_btc"]["mean"],
+                        low=miner["delta_total_btc"]["ci95_low"],
+                        high=miner["delta_total_btc"]["ci95_high"],
+                        ev_delta=miner["delta_ev_ratio"]["mean"],
+                        slots=miner["delta_shared_slots_paid"]["mean"],
+                        events=miner["delta_shared_payout_events"]["mean"],
+                    )
+                )
+    lines.append("")
+    lines.append("## Notes")
+    lines.append("")
+    lines.append("- This model assumes one honest, instant shared Work Set view. Peer latency and team splits are not modeled here.")
+    lines.append("- Share arrivals are Poisson; share difficulty uses the expected proof-of-work Pareto tail above the admission floor.")
+    lines.append("- Snapshot slot observations are diagnostic only. Miner utility should be evaluated from paid slots, payout events, BTC received, and variance over time.")
+    external_mode = scenario.get("external_payout_mode", "deterministic_fpps")
+    if external_mode == "solo":
+        lines.append("- Inactive pool-hopping hashrate mines solo outside GridPool with stochastic block-level variance.")
+    else:
+        lines.append("- Inactive pool-hopping hashrate receives deterministic outside-pool expected value. That isolates expected-value strategy effects from external pool variance.")
+    lines.append("- `Gross Hashrate EV BTC` is the miner's expected value over the same number of Bitcoin blocks if paid exactly by network hashrate share before variance and external fee effects.")
+    if scenario.get("paired_strategy_seeds"):
+        lines.append("- Strategy labels use paired Monte Carlo seeds where possible. The paired-delta table is more informative than raw label-to-label differences.")
+    else:
+        lines.append("- Strategy labels use deterministic but separate Monte Carlo streams. Use EV ratios and longer sweeps rather than tiny label-to-label differences as evidence.")
+    lines.append("- Treat this as a first-pass research result, not a proof. The scenario file and deterministic seeds are the important artifacts.")
+    lines.append("")
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def paired_strategy_comparisons(
+    scenario: dict[str, Any],
+    results: list[SimulationResult],
+    expected_by_miner: dict[str, float],
+) -> dict[str, Any]:
+    strategy_runs = scenario.get("strategy_runs") or []
+    if len(strategy_runs) < 2:
+        return {"baseline_label": "", "comparisons": {}}
+
+    baseline_label = str(scenario.get("baseline_strategy_label") or strategy_runs[0]["label"])
+    by_label_seed = {(result.label, result.seed): result for result in results}
+    baseline_seeds = sorted(result.seed for result in results if result.label == baseline_label)
+    comparisons: dict[str, Any] = {}
+
+    for strategy_run in strategy_runs:
+        label = strategy_run["label"]
+        if label == baseline_label:
+            continue
+
+        common_seeds = [
+            seed
+            for seed in baseline_seeds
+            if (baseline_label, seed) in by_label_seed and (label, seed) in by_label_seed
+        ]
+        if not common_seeds:
+            continue
+
+        miner_ids = sorted(by_label_seed[(baseline_label, common_seeds[0])].miners)
+        comparisons[label] = {"paired_seeds": common_seeds, "miners": {}}
+        for miner_id in miner_ids:
+            total_delta = []
+            ev_delta = []
+            shared_slots_delta = []
+            shared_events_delta = []
+            slot0_events_delta = []
+            for seed in common_seeds:
+                baseline = by_label_seed[(baseline_label, seed)].miners[miner_id]
+                candidate = by_label_seed[(label, seed)].miners[miner_id]
+                delta = candidate.total_btc - baseline.total_btc
+                expected = float(expected_by_miner.get(miner_id, 0.0))
+                total_delta.append(delta)
+                ev_delta.append(delta / expected if expected > 0 else 0.0)
+                shared_slots_delta.append(candidate.shared_slots_paid - baseline.shared_slots_paid)
+                shared_events_delta.append(candidate.shared_payout_events - baseline.shared_payout_events)
+                slot0_events_delta.append(candidate.slot0_payout_events - baseline.slot0_payout_events)
+
+            comparisons[label]["miners"][miner_id] = {
+                "delta_total_btc": summarize(total_delta),
+                "delta_ev_ratio": summarize(ev_delta),
+                "delta_shared_slots_paid": summarize(shared_slots_delta),
+                "delta_shared_payout_events": summarize(shared_events_delta),
+                "delta_slot0_payout_events": summarize(slot0_events_delta),
+            }
+
+    return {"baseline_label": baseline_label, "comparisons": comparisons}
+
+
+def write_paired_delta_csv(path: Path, paired: dict[str, Any]) -> None:
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(
+            [
+                "strategy",
+                "miner_id",
+                "n",
+                "mean_delta_total_btc",
+                "ci95_low_delta_total_btc",
+                "ci95_high_delta_total_btc",
+                "mean_delta_ev_ratio",
+                "ci95_low_delta_ev_ratio",
+                "ci95_high_delta_ev_ratio",
+                "mean_delta_shared_slots_paid",
+                "mean_delta_shared_payout_events",
+                "mean_delta_slot0_payout_events",
+            ]
+        )
+        for label, comparison in paired.get("comparisons", {}).items():
+            for miner_id, miner in comparison["miners"].items():
+                writer.writerow(
+                    [
+                        label,
+                        miner_id,
+                        int(miner["delta_total_btc"]["n"]),
+                        f"{miner['delta_total_btc']['mean']:.12f}",
+                        f"{miner['delta_total_btc']['ci95_low']:.12f}",
+                        f"{miner['delta_total_btc']['ci95_high']:.12f}",
+                        f"{miner['delta_ev_ratio']['mean']:.12f}",
+                        f"{miner['delta_ev_ratio']['ci95_low']:.12f}",
+                        f"{miner['delta_ev_ratio']['ci95_high']:.12f}",
+                        f"{miner['delta_shared_slots_paid']['mean']:.6f}",
+                        f"{miner['delta_shared_payout_events']['mean']:.6f}",
+                        f"{miner['delta_slot0_payout_events']['mean']:.6f}",
+                    ]
+                )
+
+
+def expected_network_ev_by_miner(scenario: dict[str, Any]) -> dict[str, float]:
+    total_hashrate = sum(float(miner["hashrate"]) for miner in scenario["miners"])
+    network_hashrate = total_hashrate / float(scenario["pool_network_share"])
+    block_value = float(scenario.get("subsidy_btc", 3.125)) + float(scenario.get("fees_btc", 0.0))
+    blocks = int(scenario["blocks"])
+    return {
+        miner["id"]: (float(miner["hashrate"]) / network_hashrate) * block_value * blocks
+        for miner in scenario["miners"]
+    }

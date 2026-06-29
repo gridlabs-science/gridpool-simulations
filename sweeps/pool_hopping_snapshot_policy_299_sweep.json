@@ -1,0 +1,69 @@
+{
+  "name": "pool_hopping_snapshot_policy_299",
+  "engine": "economic",
+  "base_scenario": "scenarios/pool_hopping.json",
+  "overrides": {
+    "blocks": 50000,
+    "replications": 64,
+    "shared_slots": 299,
+    "total_slots": 300,
+    "reserve_multiplier": 3,
+    "paired_strategy_seeds": true,
+    "shares_per_network_block_at_full_team": 350,
+    "external_payout_mode": "solo",
+    "external_fee_rate": 0.0,
+    "fees_btc": 0.05
+  },
+  "matrix": [
+    {
+      "name": "snapshot_policy",
+      "path": "snapshot_policy",
+      "values": [
+        "paid_once_reserve",
+        "clear_each_bitcoin_block"
+      ]
+    },
+    {
+      "name": "target_share",
+      "path": "miners",
+      "values": [
+        {
+          "label": "hopper_15pct",
+          "value": [
+            { "id": "anchor_45", "hashrate": 45.0 },
+            { "id": "farm_25", "hashrate": 25.0 },
+            { "id": "hopper_15", "hashrate": 15.0 },
+            { "id": "garage_8", "hashrate": 8.0 },
+            { "id": "solar_4", "hashrate": 4.0 },
+            { "id": "bitaxe_2", "hashrate": 2.0 },
+            { "id": "lotto_1", "hashrate": 1.0 }
+          ]
+        },
+        {
+          "label": "hopper_35pct",
+          "value": [
+            { "id": "anchor_25", "hashrate": 25.0 },
+            { "id": "farm_20", "hashrate": 20.0 },
+            { "id": "hopper_15", "hashrate": 35.0 },
+            { "id": "garage_10", "hashrate": 10.0 },
+            { "id": "solar_5", "hashrate": 5.0 },
+            { "id": "bitaxe_3", "hashrate": 3.0 },
+            { "id": "lotto_2", "hashrate": 2.0 }
+          ]
+        },
+        {
+          "label": "hopper_60pct",
+          "value": [
+            { "id": "anchor_15", "hashrate": 15.0 },
+            { "id": "farm_10", "hashrate": 10.0 },
+            { "id": "hopper_15", "hashrate": 60.0 },
+            { "id": "garage_7", "hashrate": 7.0 },
+            { "id": "solar_4", "hashrate": 4.0 },
+            { "id": "bitaxe_3", "hashrate": 3.0 },
+            { "id": "lotto_1", "hashrate": 1.0 }
+          ]
+        }
+      ]
+    }
+  ]
+}

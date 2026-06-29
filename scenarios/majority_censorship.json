@@ -1,0 +1,38 @@
+{
+  "name": "majority_censorship_two_team_model",
+  "random_seed": 1536,
+  "replications": 4,
+  "blocks": 5000,
+  "pool_network_share": 0.03,
+  "shares_per_network_block_at_full_team": 250,
+  "admission_floor": 1.0,
+  "total_slots": 300,
+  "shared_slots": 299,
+  "reserve_multiplier": 3,
+  "subsidy_btc": 3.125,
+  "fees_btc": 0.05,
+  "miners": [
+    { "id": "cartel_65", "role": "cartel", "hashrate": 65.0 },
+    { "id": "aligned_20", "role": "honest", "hashrate": 20.0 },
+    { "id": "independent_10", "role": "honest", "hashrate": 10.0 },
+    { "id": "target_5", "role": "target", "hashrate": 5.0 }
+  ],
+  "strategy_runs": [
+    {
+      "label": "honest_single_team",
+      "strategy": { "mode": "honest_single_team" }
+    },
+    {
+      "label": "cartel_private_split",
+      "strategy": { "mode": "cartel_private_split" }
+    },
+    {
+      "label": "cartel_censors_target_others_follow",
+      "strategy": { "mode": "cartel_censors_target_others_follow" }
+    },
+    {
+      "label": "naive_target_mines_excluding_team",
+      "strategy": { "mode": "naive_target_mines_excluding_team" }
+    }
+  ]
+}

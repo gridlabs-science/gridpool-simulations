@@ -1,0 +1,58 @@
+{
+  "name": "pool_hopping_strategy_comparison",
+  "random_seed": 512,
+  "paired_strategy_seeds": true,
+  "replications": 6,
+  "blocks": 8000,
+  "pool_network_share": 0.03,
+  "shares_per_network_block_at_full_team": 350,
+  "admission_floor": 1.0,
+  "total_slots": 300,
+  "shared_slots": 299,
+  "reserve_multiplier": 3,
+  "support_slot_enabled": false,
+  "subsidy_btc": 3.125,
+  "fees_btc": 0.05,
+  "external_fee_rate": 0.0,
+  "external_payout_mode": "deterministic_fpps",
+  "miners": [
+    { "id": "anchor_45", "hashrate": 45.0 },
+    { "id": "farm_25", "hashrate": 25.0 },
+    { "id": "hopper_15", "hashrate": 15.0 },
+    { "id": "garage_8", "hashrate": 8.0 },
+    { "id": "solar_4", "hashrate": 4.0 },
+    { "id": "bitaxe_2", "hashrate": 2.0 },
+    { "id": "lotto_1", "hashrate": 1.0 }
+  ],
+  "strategy_runs": [
+    {
+      "label": "honest_all_miners",
+      "strategy": { "type": "always" }
+    },
+    {
+      "label": "hopper_leaves_while_in_snapshot",
+      "strategy": {
+        "type": "leave_when_snapshot_slots",
+        "target_miner": "hopper_15",
+        "min_slots": 1
+      }
+    },
+    {
+      "label": "hopper_leaves_after_3_slots_for_6_blocks",
+      "strategy": {
+        "type": "leave_for_blocks_after_snapshot_slots",
+        "target_miner": "hopper_15",
+        "min_slots": 3,
+        "duration_blocks": 6
+      }
+    },
+    {
+      "label": "hopper_leaves_while_any_reserve_proof",
+      "strategy": {
+        "type": "leave_when_reserve_proofs",
+        "target_miner": "hopper_15",
+        "min_proofs": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "majority_censorship_cartel_share_sensitivity",
+  "engine": "adversary",
+  "base_scenario": "scenarios/majority_censorship.json",
+  "overrides": {
+    "blocks": 5000,
+    "replications": 4,
+    "shares_per_network_block_at_full_team": 250
+  },
+  "matrix": [
+    {
+      "name": "cartel_share",
+      "path": "miners",
+      "values": [
+        {
+          "label": "cartel_51",
+          "value": [
+            { "id": "cartel_51", "role": "cartel", "hashrate": 51.0 },
+            { "id": "aligned_29", "role": "honest", "hashrate": 29.0 },
+            { "id": "independent_15", "role": "honest", "hashrate": 15.0 },
+            { "id": "target_5", "role": "target", "hashrate": 5.0 }
+          ]
+        },
+        {
+          "label": "cartel_65",
+          "value": [
+            { "id": "cartel_65", "role": "cartel", "hashrate": 65.0 },
+            { "id": "aligned_20", "role": "honest", "hashrate": 20.0 },
+            { "id": "independent_10", "role": "honest", "hashrate": 10.0 },
+            { "id": "target_5", "role": "target", "hashrate": 5.0 }
+          ]
+        },
+        {
+          "label": "cartel_80",
+          "value": [
+            { "id": "cartel_80", "role": "cartel", "hashrate": 80.0 },
+            { "id": "aligned_10", "role": "honest", "hashrate": 10.0 },
+            { "id": "independent_5", "role": "honest", "hashrate": 5.0 },
+            { "id": "target_5", "role": "target", "hashrate": 5.0 }
+          ]
+        },
+        {
+          "label": "cartel_95",
+          "value": [
+            { "id": "cartel_95", "role": "cartel", "hashrate": 95.0 },
+            { "id": "aligned_2", "role": "honest", "hashrate": 2.0 },
+            { "id": "independent_1", "role": "honest", "hashrate": 1.0 },
+            { "id": "target_2", "role": "target", "hashrate": 2.0 }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

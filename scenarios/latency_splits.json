@@ -1,0 +1,42 @@
+{
+  "name": "latency_snapshot_split_relay_comparison",
+  "random_seed": 1024,
+  "replications": 4,
+  "blocks": 600,
+  "node_count": 24,
+  "peer_degree": 6,
+  "block_interval_seconds": 600,
+  "shares_per_network_block_at_full_team": 220,
+  "admission_floor": 1.0,
+  "shared_slots": 299,
+  "reserve_multiplier": 3,
+  "hashrate_lognormal_sigma": 0.9,
+  "relay_profiles": [
+    {
+      "label": "json_http_relay",
+      "share_mean_ms": 650,
+      "share_jitter_ms": 300,
+      "block_mean_ms": 850,
+      "block_jitter_ms": 450,
+      "payload_bytes": 2200
+    },
+    {
+      "label": "compact_websocket_relay",
+      "share_mean_ms": 190,
+      "share_jitter_ms": 90,
+      "block_mean_ms": 850,
+      "block_jitter_ms": 450,
+      "payload_bytes": 900
+    },
+    {
+      "label": "udp_fast_relay_with_fallback",
+      "share_mean_ms": 35,
+      "share_jitter_ms": 20,
+      "block_mean_ms": 850,
+      "block_jitter_ms": 450,
+      "payload_bytes": 900,
+      "fallback_probability": 0.01,
+      "fallback_delay_ms": 800
+    }
+  ]
+}

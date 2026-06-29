@@ -1,0 +1,49 @@
+{
+  "name": "pool_hopping_universal_solo_299",
+  "engine": "economic",
+  "base_scenario": "scenarios/pool_hopping.json",
+  "overrides": {
+    "blocks": 50000,
+    "replications": 64,
+    "shared_slots": 299,
+    "total_slots": 300,
+    "reserve_multiplier": 3,
+    "paired_strategy_seeds": true,
+    "shares_per_network_block_at_full_team": 350,
+    "external_payout_mode": "solo",
+    "external_fee_rate": 0.0,
+    "fees_btc": 0.05,
+    "strategy_runs": [
+      {
+        "label": "honest_all_miners",
+        "strategy": { "type": "always" }
+      },
+      {
+        "label": "all_miners_leave_while_in_snapshot",
+        "strategy": {
+          "type": "leave_when_snapshot_slots",
+          "apply_to": "all",
+          "min_slots": 1
+        }
+      },
+      {
+        "label": "all_miners_leave_while_any_reserve_proof",
+        "strategy": {
+          "type": "leave_when_reserve_proofs",
+          "apply_to": "all",
+          "min_proofs": 1
+        }
+      },
+      {
+        "label": "all_miners_leave_after_3_slots_for_6_blocks",
+        "strategy": {
+          "type": "leave_for_blocks_after_snapshot_slots",
+          "apply_to": "all",
+          "min_slots": 3,
+          "duration_blocks": 6
+        }
+      }
+    ]
+  },
+  "matrix": []
+}

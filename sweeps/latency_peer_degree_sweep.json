@@ -1,0 +1,23 @@
+{
+  "name": "latency_peer_degree_sensitivity",
+  "engine": "network",
+  "base_scenario": "scenarios/latency_splits.json",
+  "overrides": {
+    "blocks": 600,
+    "replications": 4,
+    "shares_per_network_block_at_full_team": 220
+  },
+  "matrix": [
+    {
+      "name": "node_count",
+      "path": "node_count",
+      "values": [16, 24, 48]
+    },
+    {
+      "name": "peer_degree",
+      "path": "peer_degree",
+      "values": [4, 6, 8, 12]
+    }
+  ]
+}
+

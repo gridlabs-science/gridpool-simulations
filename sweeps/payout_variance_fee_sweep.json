@@ -1,0 +1,18 @@
+{
+  "name": "payout_variance_fee_and_support_sensitivity",
+  "engine": "variance",
+  "base_scenario": "scenarios/payout_variance.json",
+  "overrides": {},
+  "matrix": [
+    {
+      "name": "fees_btc",
+      "path": "fees_btc",
+      "values": [0.0, 0.05, 0.25]
+    },
+    {
+      "name": "support_slot_enabled",
+      "path": "support_slot_enabled",
+      "values": [false, true]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "pool_hopping_reserve_and_slot_sensitivity",
+  "engine": "economic",
+  "base_scenario": "scenarios/pool_hopping.json",
+  "overrides": {
+    "blocks": 5000,
+    "replications": 4,
+    "shares_per_network_block_at_full_team": 250
+  },
+  "matrix": [
+    {
+      "name": "reserve_multiplier",
+      "path": "reserve_multiplier",
+      "values": [1, 2, 3, 5]
+    },
+    {
+      "name": "shared_slots",
+      "path": "shared_slots",
+      "values": [99, 199, 299]
+    }
+  ]
+}
+

@@ -1,0 +1,42 @@
+{
+  "name": "monthly_payout_variance_benchmarks",
+  "period_label": "30 days at 144 Bitcoin blocks/day",
+  "period_network_blocks": 4320,
+  "reference_network_hashrate_eh": 600,
+  "subsidy_btc": 3.125,
+  "fees_btc": 0.05,
+  "fpps_fee_rate": 0.0,
+  "support_slot_enabled": false,
+  "total_slots": [10, 30, 100, 300],
+  "team_multipliers": [1, 10, 30, 100, 300, 600, 1000, 10000],
+  "miners": [
+    {
+      "id": "bitaxe_1th",
+      "hashrate_th": 1
+    },
+    {
+      "id": "home_10th",
+      "hashrate_th": 10
+    },
+    {
+      "id": "small_100th",
+      "hashrate_th": 100
+    },
+    {
+      "id": "one_ph",
+      "hashrate_ph": 1
+    },
+    {
+      "id": "ten_ph",
+      "hashrate_ph": 10
+    },
+    {
+      "id": "hundred_ph",
+      "hashrate_ph": 100
+    },
+    {
+      "id": "one_eh",
+      "hashrate_eh": 1
+    }
+  ]
+}
