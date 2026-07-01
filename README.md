@@ -28,6 +28,7 @@ The models are not consensus code. They are research tools. Once a mechanism inv
 - `reports/generated/`: ignored local output directory for long runs
 - `docs/modeling-and-simulation-roadmap.md`: roadmap and claims still needing stronger modeling
 - `docs/critic-faq.md`: technical FAQ and argument map for critics
+- `docs/consensus-selection-audit-results-2026-06.md`: first-pass findings on state-selection scoring
 
 ## Quick Start
 
@@ -97,6 +98,26 @@ Payout variance benchmark against solo and idealized FPPS:
 python3 run_variance_analysis.py \
   --scenario scenarios/payout_variance.json \
   --out-dir reports/generated/payout_variance
+```
+
+Consensus-selection scoring audit:
+
+```bash
+python3 run_consensus_selection_audit.py \
+  --out-dir reports/generated/consensus_selection_audit \
+  --trials 10000 \
+  --profiles honest,minority_floor_flood,minority_reserve_fill \
+  --eligibility-modes none,active_snapshot_floor \
+  --eligibility-alphas 0.25,0.5,0.75,1.0 \
+  --jobs 4 \
+  --heartbeat-seconds 60
+```
+
+V3 branch-market resource envelope:
+
+```bash
+python3 run_branch_market_resource_model.py \
+  --out-dir reports/generated/branch_market_resource_model
 ```
 
 Parameter sweep:
