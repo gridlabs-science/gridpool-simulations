@@ -1,0 +1,6 @@
+node,transport,observations,firstArrivals,accepted,duplicates,rejectedOrStale,medianDeltaMs,p95DeltaMs,averagePayloadBytes,udpPresent
+Main,--,0,0,0,0,0,,,,false
+Dallas,websocket,8,4,3,5,5,0,8346.397,3668.75,false
+Dallas,http-json,10,1,1,9,9,46.9266,619.3623,,false
+Detroit,--,0,0,0,0,0,,,,false
+Evomining,--,0,0,0,0,0,,,,false

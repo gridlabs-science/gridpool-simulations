@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#374151"/>
+    </marker>
+    <style>
+      text{font-family:Arial,Helvetica,sans-serif;fill:#111827}
+      .muted{fill:#4b5563}
+      .node{fill:#f8fafc;stroke:#64748b;stroke-width:2;rx:8}
+      .proof{fill:#ecfdf5;stroke:#15803d;stroke-width:1.6;rx:6}
+      .late{fill:#fff7ed;stroke:#ea580c;stroke-width:1.8;rx:6}
+      .snap{fill:#eff6ff;stroke:#2563eb;stroke-width:2;rx:8}
+      .bad{fill:#fef2f2;stroke:#dc2626;stroke-width:2;rx:8}
+      .arrow{stroke:#374151;stroke-width:2.1;fill:none;marker-end:url(#arrow)}
+      .dash{stroke:#64748b;stroke-width:2;fill:none;stroke-dasharray:7 5;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="42" y="42" font-size="24" font-weight="700">V2.1 Split/Merge Toy Example</text>
+  <text x="42" y="68" class="muted" font-size="14">Compatible current-parent proofs merge forward; late previous-parent work cannot rewrite a finalized snapshot.</text>
+
+  <rect class="snap" x="380" y="98" width="220" height="72"/>
+  <text x="490" y="128" text-anchor="middle" font-size="16" font-weight="700">Shared Snapshot S0</text>
+  <text x="490" y="150" text-anchor="middle" class="muted" font-size="13">both nodes start here</text>
+
+  <rect class="node" x="70" y="220" width="250" height="132"/>
+  <text x="195" y="248" text-anchor="middle" font-size="17" font-weight="700">Node A Work Set</text>
+  <rect class="proof" x="102" y="276" width="86" height="42"/>
+  <text x="145" y="302" text-anchor="middle" font-size="14">p1</text>
+  <rect class="proof" x="204" y="276" width="86" height="42"/>
+  <text x="247" y="302" text-anchor="middle" font-size="14">p_common</text>
+  <text x="195" y="338" text-anchor="middle" class="muted" font-size="12">valid current-parent proofs</text>
+
+  <rect class="node" x="660" y="220" width="250" height="132"/>
+  <text x="785" y="248" text-anchor="middle" font-size="17" font-weight="700">Node B Work Set</text>
+  <rect class="proof" x="692" y="276" width="86" height="42"/>
+  <text x="735" y="302" text-anchor="middle" font-size="14">p2</text>
+  <rect class="proof" x="794" y="276" width="86" height="42"/>
+  <text x="837" y="302" text-anchor="middle" font-size="14">p_common</text>
+  <text x="785" y="338" text-anchor="middle" class="muted" font-size="12">valid current-parent proofs</text>
+
+  <path class="dash" d="M 430 170 C 330 188 240 200 195 220"/>
+  <path class="dash" d="M 550 170 C 650 188 740 200 785 220"/>
+
+  <rect class="snap" x="380" y="238" width="220" height="70"/>
+  <text x="490" y="266" text-anchor="middle" font-size="16" font-weight="700">Bitcoin Block Boundary</text>
+  <text x="490" y="288" text-anchor="middle" class="muted" font-size="13">active snapshot S1 is finalized locally</text>
+
+  <rect class="late" x="380" y="344" width="220" height="58"/>
+  <text x="490" y="368" text-anchor="middle" font-size="15" font-weight="700">p_stale arrives late</text>
+  <text x="490" y="388" text-anchor="middle" class="muted" font-size="12">previous-parent proof after boundary</text>
+  <path class="arrow" d="M 490 308 L 490 344"/>
+
+  <rect class="bad" x="380" y="430" width="220" height="70"/>
+  <text x="490" y="458" text-anchor="middle" font-size="16" font-weight="700">Reject / Quarantine</text>
+  <text x="490" y="480" text-anchor="middle" class="muted" font-size="13">does not rewrite S1</text>
+  <path class="arrow" d="M 490 402 L 490 430"/>
+
+  <rect class="proof" x="70" y="430" width="250" height="70"/>
+  <text x="195" y="458" text-anchor="middle" font-size="16" font-weight="700">Merged Forward Reserve</text>
+  <text x="195" y="480" text-anchor="middle" class="muted" font-size="13">p1 + p2 + p_common after validation</text>
+  <path class="arrow" d="M 320 312 C 360 360 340 420 320 456"/>
+  <path class="arrow" d="M 660 312 C 620 360 620 420 600 456"/>
+
+  <text x="42" y="536" class="muted" font-size="13">Result: no whole-branch vote is needed for compatible work; only the late previous-parent proof is excluded from canonical state.</text>
+</svg>

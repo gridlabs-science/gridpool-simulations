@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="520" viewBox="0 0 920 520">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="86" y="30" fill="#111827" font-family="monospace" font-size="20">Consensus Selection Accuracy (honest, mature reserve)</text>
+<text x="86" y="54" fill="#374151" font-family="monospace" font-size="12">Tie-adjusted accuracy by true majority share. Split window: 900 expected proofs. Chart shows selected rules.</text>
+<rect x="86" y="76" width="806" height="368" fill="#ffffff" stroke="#d1d5db"/>
+<line x1="86" x2="892" y1="444.00" y2="444.00" stroke="#e5e7eb"/>
+<text x="76" y="448.00" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">0%</text>
+<line x1="86" x2="892" y1="370.40" y2="370.40" stroke="#e5e7eb"/>
+<text x="76" y="374.40" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">20%</text>
+<line x1="86" x2="892" y1="296.80" y2="296.80" stroke="#e5e7eb"/>
+<text x="76" y="300.80" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">40%</text>
+<line x1="86" x2="892" y1="223.20" y2="223.20" stroke="#e5e7eb"/>
+<text x="76" y="227.20" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">60%</text>
+<line x1="86" x2="892" y1="149.60" y2="149.60" stroke="#e5e7eb"/>
+<text x="76" y="153.60" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">80%</text>
+<line x1="86" x2="892" y1="76.00" y2="76.00" stroke="#e5e7eb"/>
+<text x="76" y="80.00" fill="#374151" font-family="monospace" font-size="11" text-anchor="end">100%</text>
+<line x1="86.00" x2="86.00" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="86.00" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">51%</text>
+<line x1="168.67" x2="168.67" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="168.67" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">55%</text>
+<line x1="272.00" x2="272.00" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="272.00" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">60%</text>
+<line x1="416.67" x2="416.67" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="416.67" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">67%</text>
+<line x1="582.00" x2="582.00" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="582.00" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">75%</text>
+<line x1="892.00" x2="892.00" y1="76" y2="444" stroke="#f3f4f6"/>
+<text x="892.00" y="466" fill="#374151" font-family="monospace" font-size="11" text-anchor="middle">90%</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="2.4" points="86.00,250.76 168.67,208.77 272.00,165.72 416.67,130.57 582.00,102.90 892.00,82.11"/>
+<circle cx="86.00" cy="250.76" r="3" fill="#2563eb"/>
+<circle cx="168.67" cy="208.77" r="3" fill="#2563eb"/>
+<circle cx="272.00" cy="165.72" r="3" fill="#2563eb"/>
+<circle cx="416.67" cy="130.57" r="3" fill="#2563eb"/>
+<circle cx="582.00" cy="102.90" r="3" fill="#2563eb"/>
+<circle cx="892.00" cy="82.11" r="3" fill="#2563eb"/>
+<polyline fill="none" stroke="#15803d" stroke-width="2.4" points="86.00,248.63 168.67,196.78 272.00,149.71 416.67,109.05 582.00,86.71 892.00,76.96"/>
+<circle cx="86.00" cy="248.63" r="3" fill="#15803d"/>
+<circle cx="168.67" cy="196.78" r="3" fill="#15803d"/>
+<circle cx="272.00" cy="149.71" r="3" fill="#15803d"/>
+<circle cx="416.67" cy="109.05" r="3" fill="#15803d"/>
+<circle cx="582.00" cy="86.71" r="3" fill="#15803d"/>
+<circle cx="892.00" cy="76.96" r="3" fill="#15803d"/>
+<polyline fill="none" stroke="#ca8a04" stroke-width="2.4" points="86.00,238.47 168.67,149.56 272.00,93.88 416.67,76.88 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="238.47" r="3" fill="#ca8a04"/>
+<circle cx="168.67" cy="149.56" r="3" fill="#ca8a04"/>
+<circle cx="272.00" cy="93.88" r="3" fill="#ca8a04"/>
+<circle cx="416.67" cy="76.88" r="3" fill="#ca8a04"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#ca8a04"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#ca8a04"/>
+<polyline fill="none" stroke="#ea580c" stroke-width="2.4" points="86.00,228.43 168.67,121.45 272.00,79.53 416.67,76.00 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="228.43" r="3" fill="#ea580c"/>
+<circle cx="168.67" cy="121.45" r="3" fill="#ea580c"/>
+<circle cx="272.00" cy="79.53" r="3" fill="#ea580c"/>
+<circle cx="416.67" cy="76.00" r="3" fill="#ea580c"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#ea580c"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#ea580c"/>
+<polyline fill="none" stroke="#be185d" stroke-width="2.4" points="86.00,235.56 168.67,140.62 272.00,87.89 416.67,76.18 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="235.56" r="3" fill="#be185d"/>
+<circle cx="168.67" cy="140.62" r="3" fill="#be185d"/>
+<circle cx="272.00" cy="87.89" r="3" fill="#be185d"/>
+<circle cx="416.67" cy="76.18" r="3" fill="#be185d"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#be185d"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#be185d"/>
+<polyline fill="none" stroke="#0f766e" stroke-width="2.4" points="86.00,233.21 168.67,139.74 272.00,90.94 416.67,78.69 582.00,76.88 892.00,76.11"/>
+<circle cx="86.00" cy="233.21" r="3" fill="#0f766e"/>
+<circle cx="168.67" cy="139.74" r="3" fill="#0f766e"/>
+<circle cx="272.00" cy="90.94" r="3" fill="#0f766e"/>
+<circle cx="416.67" cy="78.69" r="3" fill="#0f766e"/>
+<circle cx="582.00" cy="76.88" r="3" fill="#0f766e"/>
+<circle cx="892.00" cy="76.11" r="3" fill="#0f766e"/>
+<polyline fill="none" stroke="#dc2626" stroke-width="2.4" points="86.00,214.22 168.67,95.36 272.00,76.07 416.67,76.00 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="214.22" r="3" fill="#dc2626"/>
+<circle cx="168.67" cy="95.36" r="3" fill="#dc2626"/>
+<circle cx="272.00" cy="76.07" r="3" fill="#dc2626"/>
+<circle cx="416.67" cy="76.00" r="3" fill="#dc2626"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#dc2626"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#dc2626"/>
+<polyline fill="none" stroke="#374151" stroke-width="2.4" points="86.00,213.30 168.67,90.68 272.00,76.11 416.67,76.00 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="213.30" r="3" fill="#374151"/>
+<circle cx="168.67" cy="90.68" r="3" fill="#374151"/>
+<circle cx="272.00" cy="76.11" r="3" fill="#374151"/>
+<circle cx="416.67" cy="76.00" r="3" fill="#374151"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#374151"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#374151"/>
+<polyline fill="none" stroke="#8ff0a4" stroke-width="2.4" points="86.00,195.97 168.67,80.18 272.00,76.00 416.67,76.00 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="195.97" r="3" fill="#8ff0a4"/>
+<circle cx="168.67" cy="80.18" r="3" fill="#8ff0a4"/>
+<circle cx="272.00" cy="76.00" r="3" fill="#8ff0a4"/>
+<circle cx="416.67" cy="76.00" r="3" fill="#8ff0a4"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#8ff0a4"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#8ff0a4"/>
+<polyline fill="none" stroke="#99c1f1" stroke-width="2.4" points="86.00,192.58 168.67,78.32 272.00,76.00 416.67,76.00 582.00,76.00 892.00,76.00"/>
+<circle cx="86.00" cy="192.58" r="3" fill="#99c1f1"/>
+<circle cx="168.67" cy="78.32" r="3" fill="#99c1f1"/>
+<circle cx="272.00" cy="76.00" r="3" fill="#99c1f1"/>
+<circle cx="416.67" cy="76.00" r="3" fill="#99c1f1"/>
+<circle cx="582.00" cy="76.00" r="3" fill="#99c1f1"/>
+<circle cx="892.00" cy="76.00" r="3" fill="#99c1f1"/>
+<rect x="98" y="85" width="10" height="10" fill="#2563eb"/>
+<text x="114" y="94" fill="#111827" font-family="monospace" font-size="11">sum_workset_difficulty</text>
+<rect x="98" y="103" width="10" height="10" fill="#15803d"/>
+<text x="114" y="112" fill="#111827" font-family="monospace" font-size="11">sum_minus_top_1</text>
+<rect x="98" y="121" width="10" height="10" fill="#ca8a04"/>
+<text x="114" y="130" fill="#111827" font-family="monospace" font-size="11">sum_minus_top_10</text>
+<rect x="98" y="139" width="10" height="10" fill="#ea580c"/>
+<text x="114" y="148" fill="#111827" font-family="monospace" font-size="11">sum_minus_top_30</text>
+<rect x="98" y="157" width="10" height="10" fill="#be185d"/>
+<text x="114" y="166" fill="#111827" font-family="monospace" font-size="11">sum_capped_100x_floor</text>
+<rect x="98" y="175" width="10" height="10" fill="#0f766e"/>
+<text x="114" y="184" fill="#111827" font-family="monospace" font-size="11">sqrt_sum</text>
+<rect x="98" y="193" width="10" height="10" fill="#dc2626"/>
+<text x="114" y="202" fill="#111827" font-family="monospace" font-size="11">log_sum</text>
+<rect x="98" y="211" width="10" height="10" fill="#374151"/>
+<text x="114" y="220" fill="#111827" font-family="monospace" font-size="11">median_times_count</text>
+<rect x="98" y="229" width="10" height="10" fill="#8ff0a4"/>
+<text x="114" y="238" fill="#111827" font-family="monospace" font-size="11">p10_times_count</text>
+<rect x="98" y="247" width="10" height="10" fill="#99c1f1"/>
+<text x="114" y="256" fill="#111827" font-family="monospace" font-size="11">bottom_10_mean_times_count</text>
+<text x="489.0" y="498" fill="#111827" font-family="monospace" font-size="13" text-anchor="middle">True hashrate share of side A</text>
+<text transform="translate(22 260.0) rotate(-90)" fill="#111827" font-family="monospace" font-size="13" text-anchor="middle">Tie-adjusted accuracy</text>
+</svg>

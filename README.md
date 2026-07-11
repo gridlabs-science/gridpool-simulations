@@ -29,6 +29,9 @@ The models are not consensus code. They are research tools. Once a mechanism inv
 - `docs/modeling-and-simulation-roadmap.md`: roadmap and claims still needing stronger modeling
 - `docs/critic-faq.md`: technical FAQ and argument map for critics
 - `docs/consensus-selection-audit-results-2026-06.md`: first-pass findings on state-selection scoring
+- `docs/july-17-developer-meeting-findings.md`: publishable/caveated findings draft for the July 17 developer meeting
+- `docs/next-runs-before-july-17.md`: prioritized remaining sweeps and commands before the meeting
+- `docs/live-relay-telemetry-plan.md`: plan for collecting preliminary public-node relay latency data
 
 ## Quick Start
 
@@ -158,7 +161,7 @@ Generate charts:
 
 ```bash
 python3 plot_sweep_results.py \
-  --input reports/generated/sweeps/pool_hopping_focused_299_long/sweep_results.csv \
+  --csv reports/generated/sweeps/pool_hopping_focused_299_long/sweep_results.csv \
   --out-dir reports/generated/charts
 ```
 

@@ -233,12 +233,12 @@ def main() -> int:
     )
     parser.add_argument(
         "--eligibility-modes",
-        default="none",
+        default=None,
         help="Comma-separated score eligibility filters: none,active_snapshot_floor,reserve_floor.",
     )
     parser.add_argument(
         "--eligibility-alphas",
-        default="0.5,0.75,1.0",
+        default=None,
         help="Comma-separated alpha values for non-none eligibility modes.",
     )
     parser.add_argument(
@@ -256,8 +256,11 @@ def main() -> int:
         args.split_proofs = "10,100,900"
         args.common_modes = "empty,mature"
         args.profiles = "honest,minority_floor_flood"
-        args.eligibility_modes = "none,active_snapshot_floor"
-        args.eligibility_alphas = "0.5,1.0"
+        args.eligibility_modes = args.eligibility_modes or "none,active_snapshot_floor"
+        args.eligibility_alphas = args.eligibility_alphas or "0.5,1.0"
+
+    args.eligibility_modes = args.eligibility_modes or "none"
+    args.eligibility_alphas = args.eligibility_alphas or "0.5,0.75,1.0"
 
     reserve_limit = int(math.ceil(args.shared_slots * args.reserve_multiplier))
     eligibility_variants = build_eligibility_variants(

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560">
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#111827} .muted{fill:#4b5563} .grid{stroke:#e5e7eb;stroke-width:1} .axis{stroke:#6b7280;stroke-width:1.2} .ref{stroke:#b45309;stroke-width:1.5;stroke-dasharray:5 5} .line{fill:none;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round} .dot{stroke:#ffffff;stroke-width:1.3}
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="84" y="34" font-size="22" font-weight="700">Relay Payload Scaling At Degree 8</text>
+<text x="84" y="58" class="muted" font-size="13">Total network payload over the full simulated run (current latency sweep: 600 Bitcoin blocks, ~4.2 days). X=total GridPool nodes; degree=8 active peers per node.</text>
+<line x1="84" y1="482.00" x2="720" y2="482.00" class="grid"/>
+<text x="74" y="486.00" text-anchor="end" class="muted" font-size="11">0.0e+00</text>
+<line x1="84" y1="416.18" x2="720" y2="416.18" class="grid"/>
+<text x="74" y="420.18" text-anchor="end" class="muted" font-size="11">100.0</text>
+<line x1="84" y1="350.36" x2="720" y2="350.36" class="grid"/>
+<text x="74" y="354.36" text-anchor="end" class="muted" font-size="11">200.0</text>
+<line x1="84" y1="284.54" x2="720" y2="284.54" class="grid"/>
+<text x="74" y="288.54" text-anchor="end" class="muted" font-size="11">300.0</text>
+<line x1="84" y1="218.73" x2="720" y2="218.73" class="grid"/>
+<text x="74" y="222.73" text-anchor="end" class="muted" font-size="11">400.0</text>
+<line x1="84" y1="152.91" x2="720" y2="152.91" class="grid"/>
+<text x="74" y="156.91" text-anchor="end" class="muted" font-size="11">500.0</text>
+<line x1="84" y1="87.09" x2="720" y2="87.09" class="grid"/>
+<text x="74" y="91.09" text-anchor="end" class="muted" font-size="11">600.0</text>
+<line x1="163.50" y1="82" x2="163.50" y2="482" class="grid"/>
+<text x="163.50" y="506" text-anchor="middle" class="muted" font-size="11">20.00</text>
+<line x1="362.25" y1="82" x2="362.25" y2="482" class="grid"/>
+<text x="362.25" y="506" text-anchor="middle" class="muted" font-size="11">30.00</text>
+<line x1="561.00" y1="82" x2="561.00" y2="482" class="grid"/>
+<text x="561.00" y="506" text-anchor="middle" class="muted" font-size="11">40.00</text>
+<line x1="759.75" y1="82" x2="759.75" y2="482" class="grid"/>
+<text x="759.75" y="506" text-anchor="middle" class="muted" font-size="11">50.00</text>
+<line x1="84" y1="482" x2="720" y2="482" class="axis"/>
+<line x1="84" y1="82" x2="84" y2="482" class="axis"/>
+<text x="402.0" y="540" text-anchor="middle" class="muted" font-size="13">Total GridPool nodes</text>
+<text x="22" y="282.0" text-anchor="middle" transform="rotate(-90 22 282.0)" class="muted" font-size="13">Payload MB / the full simulated run (current latency sweep: 600 Bitcoin blocks, ~4.2 days)</text>
+<polyline points="84.00,360.08 243.00,297.67 720.00,111.63" class="line" stroke="#2563eb"/>
+<circle cx="84.00" cy="360.08" r="4" fill="#2563eb" class="dot"/>
+<circle cx="243.00" cy="297.67" r="4" fill="#2563eb" class="dot"/>
+<circle cx="720.00" cy="111.63" r="4" fill="#2563eb" class="dot"/>
+<line x1="748" y1="82" x2="766" y2="82" stroke="#2563eb" stroke-width="3"/>
+<text x="774" y="86" class="muted" font-size="11">json http</text>
+<polyline points="84.00,431.78 243.00,407.66 720.00,331.81" class="line" stroke="#ca8a04" stroke-dasharray="2 4"/>
+<circle cx="84.00" cy="431.78" r="4" fill="#ca8a04" class="dot"/>
+<circle cx="243.00" cy="407.66" r="4" fill="#ca8a04" class="dot"/>
+<circle cx="720.00" cy="331.81" r="4" fill="#ca8a04" class="dot"/>
+<line x1="748" y1="106" x2="766" y2="106" stroke="#ca8a04" stroke-width="3" stroke-dasharray="2 4"/>
+<text x="774" y="110" class="muted" font-size="11">udp fast</text>
+<polyline points="84.00,432.21 243.00,407.10 720.00,332.59" class="line" stroke="#15803d" stroke-dasharray="7 4"/>
+<circle cx="84.00" cy="432.21" r="4" fill="#15803d" class="dot"/>
+<circle cx="243.00" cy="407.10" r="4" fill="#15803d" class="dot"/>
+<circle cx="720.00" cy="332.59" r="4" fill="#15803d" class="dot"/>
+<line x1="748" y1="130" x2="766" y2="130" stroke="#15803d" stroke-width="3" stroke-dasharray="7 4"/>
+<text x="774" y="134" class="muted" font-size="11">compact websocket</text>
+</svg>

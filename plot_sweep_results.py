@@ -80,6 +80,10 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 
 
 def plot_economic(rows: list[dict[str, str]], out_dir: Path, target_miner: str) -> list[Path]:
+    labels = {row.get("result_label", "") for row in rows}
+    if any("withholds" in label for label in labels):
+        return plot_block_withholding(rows, out_dir)
+
     miner_rows = [
         row
         for row in rows
@@ -145,6 +149,62 @@ def plot_economic(rows: list[dict[str, str]], out_dir: Path, target_miner: str) 
                 y_reference=0.0,
             )
             generated.append(path)
+
+    return generated
+
+
+def plot_block_withholding(rows: list[dict[str, str]], out_dir: Path) -> list[Path]:
+    attacker = "attacker_15"
+    miner_rows = [
+        row
+        for row in rows
+        if row.get("entity_type") == "miner" and row.get("entity") == attacker
+    ]
+    paired_rows = [
+        row
+        for row in rows
+        if row.get("entity_type") == "paired_delta" and row.get("entity") == attacker
+    ]
+    if not miner_rows:
+        return []
+
+    generated: list[Path] = []
+    ev_points = group_points(
+        miner_rows,
+        x_key="param_fees_btc",
+        y_key="metric_primary",
+        series_key="result_label",
+    )
+    path = out_dir / "block_withholding_attacker_ev_by_fees_btc.svg"
+    write_line_chart(
+        path,
+        title="Block Withholding Attacker EV By Fee Level",
+        subtitle="Target miner: attacker_15. Y=BTC earned / theoretical hashrate EV.",
+        x_label="Bitcoin transaction fees per block (BTC)",
+        y_label="Attacker EV ratio",
+        series=ev_points,
+        y_reference=1.0,
+    )
+    generated.append(path)
+
+    if paired_rows:
+        delta_points = group_points(
+            paired_rows,
+            x_key="param_fees_btc",
+            y_key="mean_delta_ev_ratio",
+            series_key="result_label",
+        )
+        path = out_dir / "block_withholding_attacker_delta_by_fees_btc.svg"
+        write_line_chart(
+            path,
+            title="Block Withholding Paired Delta By Fee Level",
+            subtitle="Target miner: attacker_15. Delta versus honest mining on paired Monte Carlo seeds.",
+            x_label="Bitcoin transaction fees per block (BTC)",
+            y_label="Delta EV ratio",
+            series=delta_points,
+            y_reference=0.0,
+        )
+        generated.append(path)
 
     return generated
 

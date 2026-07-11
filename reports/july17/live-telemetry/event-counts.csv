@@ -1,0 +1,14 @@
+node,eventType,count
+Main,reachability-test,3
+Main,datum-session-lock,2
+Main,fresh-parent-learned,1
+Main,payout-snapshot,2
+Main,chain-tip-stale,1
+Main,peer-pruned,2
+Dallas,payout-snapshot,46
+Dallas,state-adopted,19
+Dallas,peer-pruned,11
+Dallas,chain-tip-stale,6
+Evomining,payout-snapshot,70
+Evomining,chain-tip-stale,59
+Evomining,peer-pruned,1

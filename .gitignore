@@ -3,3 +3,6 @@ __pycache__/
 .venv/
 venv/
 reports/generated/
+
+# Local LaTeX cache
+reports/july17/.texcache/
