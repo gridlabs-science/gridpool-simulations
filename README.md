@@ -2,6 +2,11 @@
 
 Modeling and simulations for the GridPool reward-sharing protocol.
 
+Cross-project decisions and the curated evidence interpretation live in the
+[GridPool handbook](https://github.com/gridlabs-science/gridpool-handbook).
+This repository remains canonical for models, configurations, generated data,
+and research reports.
+
 Current July 17 research update:
 
 - [GridPool V2.1 research update](reports/july17/gridpool-july17-research-update-v1.md)
@@ -36,7 +41,7 @@ The models are not consensus code. They are research tools. Once a mechanism inv
 - `reports/`: reviewed/promoted report outputs
 - `reports/generated/`: ignored local output directory for long runs
 - `docs/modeling-and-simulation-roadmap.md`: roadmap and claims still needing stronger modeling
-- `docs/critic-faq.md`: technical FAQ and argument map for critics
+- `docs/critic-faq.md`: redirect to the handbook-owned technical FAQ
 - `docs/consensus-selection-audit-results-2026-06.md`: first-pass findings on state-selection scoring
 - `docs/july-17-developer-meeting-findings.md`: publishable/caveated findings draft for the July 17 developer meeting
 - `docs/next-runs-before-july-17.md`: prioritized remaining sweeps and commands before the meeting
