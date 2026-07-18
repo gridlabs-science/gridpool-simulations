@@ -20,7 +20,8 @@ Curated chart packet:
 | Pool hopping | Economic sweeps with deterministic FPPS and solo outside options; mechanical proof claims are explicit. | Strong mechanical claim; small/caveated economic effect. |
 | Block withholding | Fee-sensitivity sweep over honest, withhold-all, and selective-withholding strategies. | Strong model-backed evidence against straightforward profit-seeking withholding. |
 | Relay latency | Network latency model and generated charts; live telemetry plan exists but public-node data is not clean enough yet. | Model evidence only; field proof pending. |
-| Consensus scoring | Wide honest/adversarial scoring audit, eligibility follow-up, and delayed-snapshot economics model. | Open research; V2.1 boundary-finality rule is the near-term launch-hardening point. |
+| Selective inclusion | Counterfactual cross-active-state merge model plus runtime reachability regression. | Strong warning against permissive cross-state credit; tested candidate import blocks the modeled transition. |
+| Consensus scoring | Wide honest/adversarial scoring audit, eligibility follow-up, delayed-snapshot economics, and active-state anchoring regression. | Routine same-state merge is defined; genuine active-snapshot split recovery remains open. |
 
 ## What This Does And Does Not Prove
 
@@ -32,6 +33,7 @@ Curated chart packet:
 | Straightforward profit-seeking block withholding is unattractive in the current model. | Griefing is impossible when the attacker has external utility. |
 | Compact relay lowers modeled snapshot-split risk relative to full JSON relay. | UDP/compact relay has been field-proven to reduce global split risk by a measured percentage. |
 | V2.1 should reject/quarantine late previous-parent proofs across a locally observed Bitcoin-block boundary. | The final public-node consensus scoring rule has been selected and fully validated. |
+| Candidate-state anchoring rejects the tested attempt to credit a current-parent proof from a genuinely different active payout snapshot. | Every genuine active-snapshot split will automatically heal without discarding honest work. |
 
 ## Recommended Framing
 
@@ -42,7 +44,9 @@ is:
 > GridPool replaces trusted pool accounting with independently verifiable
 > proof-of-work claims against explicit payout snapshots. Simulations support
 > the core variance-reduction and block-withholding-resistance arguments, while
-> consensus selection under adversarial splits remains active research.
+> candidate-state anchoring blocks the tested cross-active-state free-riding
+> path, while recovery from genuine active-snapshot splits remains active
+> research.
 
 That framing is accurate and difficult for competent critics to dismiss.
 
@@ -204,6 +208,8 @@ Best sources:
 - `reports/generated/delayed_snapshot_attack_survival_poolshare_0.01`
 - `reports/generated/delayed_snapshot_attack_survival_poolshare_0.03`
 - `reports/generated/delayed_snapshot_attack_survival_poolshare_0.10`
+- `reports/generated/v21_selective_inclusion_long`
+- Runtime regression: `CandidateImportRejectsCurrentParentProofFromDifferentActiveSnapshotAsync`
 - Chart packet figures:
   - `reports/generated/july17_chart_packet/charts/consensus__honest_mature_accuracy_split_900.svg`
   - `reports/generated/july17_chart_packet/charts/consensus__floor_flood_empty_accuracy_split_900.svg`
@@ -260,10 +266,25 @@ discarding ordinary split recovery:
 - previous-parent proofs that arrive after the local Bitcoin-block boundary are
   rejected or quarantined from the canonical reserve and do not rewrite the
   already-active payout snapshot;
-- current-parent proofs mined against a divergent retained payout snapshot can
-  still merge forward into the unpaid Work Set after full validation;
+- current-parent proofs from divergent retained contexts under the same active
+  payout state can still merge forward after full validation;
 - established nodes should not replace an already-active snapshot merely
   because a same-round peer branch claims to be heavier.
+
+The selective-inclusion model then tested the dangerous rule explicitly: an
+attacker excludes honest proofs from its active payout snapshot, but the honest
+team still credits the attacker's proofs across that different active state.
+The modeled excess reward share was `+6.775`, `+12.921`, `+13.518`, `+10.989`,
+and `+4.357` percentage points at attacker hash shares of `10%`, `35%`, `51%`,
+`67%`, and `90%`, respectively. This is a material transfer and shows that an
+unconditional cross-state merge rule would be unsafe.
+
+The runtime reachability check changed the interpretation. Candidate-state IDs
+are anchored to the active state. A valid current-parent proof carried by a
+genuinely different exclusionary active snapshot was rejected during import,
+and the inclusive Work Set remained unchanged. The simulation is therefore a
+counterfactual guardrail for future recovery design, not evidence of a current
+candidate-import exploit.
 
 One-block stale-window examples with a mature `897`-proof reserve:
 
@@ -276,10 +297,11 @@ One-block stale-window examples with a mature `897`-proof reserve:
 
 Safe public claim:
 
-> The current V2.1 rule is acceptable for small live beta testing if nodes
-> reject/quarantine late previous-parent proofs while still merging valid
-> current-parent divergent proofs forward. Packaged release should wait until
-> this behavior is covered by regression tests and live multi-node soak data.
+> The current V2.1 candidate-import path anchors candidate work to the active
+> payout state, merges compatible same-state work, and rejects the tested
+> cross-active-state free-riding transition. Packaged release still needs a
+> specified recovery policy for genuine active-snapshot splits, direct-ingress
+> boundary hardening, and live multi-node soak data.
 
 This is deliberately narrower than saying that the consensus scoring problem is
 solved. It says the launch path should not depend on retroactive replacement of

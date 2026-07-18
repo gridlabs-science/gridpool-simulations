@@ -2,6 +2,15 @@
 
 Modeling and simulations for the GridPool reward-sharing protocol.
 
+Current July 17 research update:
+
+- [GridPool V2.1 research update](reports/july17/gridpool-july17-research-update-v1.md)
+- [Printable PDF](reports/july17/gridpool-july17-research-update-v1.pdf)
+- [Live network appendix](reports/july17/live-telemetry/live-network-appendix.md)
+
+Superseded handouts and the editor-annotated source are retained under
+`reports/july17/archive/`.
+
 This repository is intentionally separate from the live GridPool node implementation. That keeps mechanism-design research, long Monte Carlo sweeps, generated charts, and academic notes from dirtying the runtime codebase when urgent node fixes need to ship.
 
 ## Goals
@@ -121,6 +130,38 @@ V3 branch-market resource envelope:
 ```bash
 python3 run_branch_market_resource_model.py \
   --out-dir reports/generated/branch_market_resource_model
+```
+
+V2.1 disagreement persistence through cutoff displacement and payment:
+
+```bash
+python3 run_v21_disagreement_persistence.py \
+  --out-dir reports/generated/v21_disagreement_persistence \
+  --blocks 10000 \
+  --replications 12 \
+  --jobs 8
+```
+
+V2.1 selective-inclusion and merge-forward incentive test:
+
+```bash
+python3 run_v21_selective_inclusion.py \
+  --out-dir reports/generated/v21_selective_inclusion \
+  --blocks 3000 \
+  --replications 20
+```
+
+This run compares an inclusive honest baseline with a miner that excludes
+other proofs while either relaying its own proofs (`free_ride`) or withholding
+them (`private_split`). See `docs/v21-selective-inclusion-model.md` for the
+threat model and interpretation gates.
+
+Ranked-proof aggregate and per-miner sampling calibration:
+
+```bash
+python3 run_ranked_proof_calibration.py \
+  --out-dir reports/generated/ranked_proof_calibration \
+  --trials 250000
 ```
 
 Parameter sweep:

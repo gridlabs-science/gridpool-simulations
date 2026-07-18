@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">V2.1 behavior around a Bitcoin block boundary</title>
+  <desc id="desc">A proof seen by one node before the boundary and another after it can create different active snapshots. The late node does not retroactively add the old-parent proof. Merge-forward applies among nodes sharing one active payout state; proofs built against different active snapshots cannot be cross-credited.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8f5; } .lane { stroke: #63736a; stroke-width: 3; }
+      .boundary { stroke: #8d3f36; stroke-width: 3; stroke-dasharray: 9 7; }
+      .title { font: 700 28px sans-serif; fill: #142019; } .head { font: 700 19px sans-serif; fill: #142019; }
+      .body { font: 16px sans-serif; fill: #26372e; } .small { font: 14px sans-serif; fill: #4a5a51; }
+      .mono { font: 15px monospace; fill: #142019; }
+      .ok { fill: #dfeee2; stroke: #2f6844; stroke-width: 2; rx: 12; }
+      .late { fill: #f5dfdc; stroke: #8d3f36; stroke-width: 2; rx: 12; }
+      .snap { fill: #f8e7b5; stroke: #876618; stroke-width: 2; rx: 12; }
+      .merge { fill: #e7edf7; stroke: #34577a; stroke-width: 2; rx: 12; }
+      .arrow { stroke: #65776d; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#65776d"/></marker>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="600" y="42" text-anchor="middle">V2.1 bounds a late proof without voting on a stale branch</text>
+  <text class="head" x="60" y="118">Node A</text><line class="lane" x1="145" y1="112" x2="1145" y2="112"/>
+  <text class="head" x="60" y="318">Node B</text><line class="lane" x1="145" y1="312" x2="1145" y2="312"/>
+  <line class="boundary" x1="475" y1="70" x2="475" y2="390"/>
+  <text class="head" x="475" y="420" text-anchor="middle">local observation of B(h+1)</text>
+  <text class="small" x="475" y="444" text-anchor="middle">snapshot boundary; peer timestamps are irrelevant</text>
+
+  <rect class="ok" x="220" y="75" width="205" height="72"/>
+  <text class="mono" x="322" y="103" text-anchor="middle">proof x on parent B(h)</text>
+  <text class="small" x="322" y="128" text-anchor="middle">A receives before boundary</text>
+  <rect class="snap" x="505" y="70" width="205" height="82"/>
+  <text class="mono" x="607" y="102" text-anchor="middle">S_A includes x</text>
+  <text class="small" x="607" y="128" text-anchor="middle">locally fixed for height h+1</text>
+
+  <rect class="snap" x="505" y="270" width="205" height="82"/>
+  <text class="mono" x="607" y="302" text-anchor="middle">S_B excludes x</text>
+  <text class="small" x="607" y="328" text-anchor="middle">locally fixed for height h+1</text>
+  <rect class="late" x="745" y="270" width="230" height="82"/>
+  <text class="mono" x="860" y="302" text-anchor="middle">x arrives late at B</text>
+  <text class="small" x="860" y="328" text-anchor="middle">reject/quarantine from reserve</text>
+
+  <rect class="merge" x="745" y="70" width="340" height="82"/>
+  <text class="body" x="915" y="101" text-anchor="middle">New proofs commit to S_A or S_B</text>
+  <text class="small" x="915" y="128" text-anchor="middle">valid only within their payout branch</text>
+  <path class="arrow" d="M915 158 C915 205 820 220 820 260"/>
+  <text class="small" x="940" y="217">no cross-credit across S_A / S_B</text>
+
+  <rect class="merge" x="75" y="500" width="1050" height="150"/>
+  <text class="head" x="600" y="535" text-anchor="middle">What converges, and what does not</text>
+  <text class="body" x="112" y="570">- Merge-forward applies when nodes share one active snapshot; S_A and S_B do not cross-merge.</text>
+  <text class="body" x="112" y="602">- Old-parent proof x does not retroactively rewrite B's active snapshot or canonical reserve.</text>
+  <text class="body" x="112" y="634">- S_A and S_B can remain separate until the difference is displaced or lineage is explicitly reconciled.</text>
+
+  <rect class="late" x="175" y="678" width="850" height="66"/>
+  <text class="body" x="600" y="705" text-anchor="middle">Resolution is not a peer clock or a "heavier stale list":</text>
+  <text class="body" x="600" y="730" text-anchor="middle">wait for cutoff displacement or apply exact lineage from a validated GridPool block.</text>
+</svg>

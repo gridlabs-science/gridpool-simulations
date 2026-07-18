@@ -10,51 +10,66 @@ This report checks whether the current public GridPool V2.1 network is observabl
 
 | Field | Value |
 | --- | --- |
-| Started UTC | 2026-07-11T12:24:18.734Z |
-| Ended UTC | 2026-07-11T12:24:19.718Z |
-| Duration | 1.0 seconds |
-| API telemetry window | 12h |
-| API sample limit | 1000 |
-| Request timeout | 8000 ms |
+| Started UTC | 2026-07-17T16:00:13.361Z |
+| Ended UTC | 2026-07-17T16:00:17.260Z |
+| Duration | 3.9 seconds |
+| API telemetry window | 24h |
+| API sample limit | 10000 |
+| Request timeout | 15000 ms |
 
 ## Node Summary
 
 | Node | Region | Role | Operator | URL | Reachable | Version | Current State | Candidate State | UDP Config | Notes |
 | --- | --- | --- | --- | --- | ---: | --- | --- | --- | --- | --- |
-| Main | Washington D.C. area | primary public node | project operator | https://main.gridpool.net | yes | 1.0.0+a37c5dd5815c297c82c5a45b2d9802107b499f86 | 117a42a7...2aae9bdd | f0427574...2a2ef609 | enabled=true, version=3, host=--, port=5001, max=1200, probeAll=true | Peer dallas.gridpool.net has no recorded lastSuccessUtc. Peer evomining.farted.net has no recorded lastSuccessUtc. Duplicate peer entry observed for evomining.farted.net. Duplicate peer entry observed for dallas.gridpool.net. No UDP relay observations in selected window. |
-| Dallas | Dallas, Texas | primary public node | project operator | https://dallas.gridpool.net | yes | 1.0.0 | 117a42a7...2aae9bdd | f0427574...2a2ef609 | enabled=--, version=3, host=--, port=--, max=--, probeAll=-- | No UDP relay observations in selected window. |
-| Detroit | Detroit, Michigan | planned primary public node | project operator | -- | disabled | -- | -- | -- | -- | Placeholder; set url and enabled=true when endpoint is online. |
-| Evomining | Texas | private operator node / external sanity check | external beta operator | http://evomining.farted.net | yes | 1.0.0 | 117a42a7...2aae9bdd | f0427574...2a2ef609 | enabled=--, version=3, host=--, port=--, max=--, probeAll=-- | No UDP relay observations in selected window. |
+| Main | Washington D.C. area | primary public node | project operator | https://main.gridpool.net | yes | 1.0.0+7b39cfabcd78f1400b4f64b2ecef470e1b4b3ed3 | 5b7661b0...3dd98c8d | 8fc36e21...bc719c6b | enabled=true, version=5, host=udp.main.gridpool.net, port=5001, max=1200, probeAll=true | -- |
+| Dallas | Dallas, Texas | primary public node | project operator | https://dallas.gridpool.net | yes | 1.0.0 | 5b7661b0...3dd98c8d | 8fc36e21...bc719c6b | enabled=true, version=5, host=udp.dallas.gridpool.net, port=5001, max=1200, probeAll=true | -- |
+| Detroit | Detroit, Michigan | primary public node | project operator | https://detroit.gridpool.net | yes | 1.0.0 | 5b7661b0...3dd98c8d | 8fc36e21...bc719c6b | enabled=true, version=5, host=udp.detroit.gridpool.net, port=5001, max=1200, probeAll=false | Duplicate peer entry observed for dallas.gridpool.net. |
+| Evomining | Texas | private operator node / external sanity check | external beta operator | http://evomining.farted.net | yes | 1.0.0 | 5b7661b0...3dd98c8d | 8fc36e21...bc719c6b | enabled=true, version=5, host=evomining.farted.net, port=5001, max=1200, probeAll=true | -- |
 
 ## State Agreement
 
 | Comparison | Status | Details |
 | --- | --- | --- |
-| Primary nodes compared | Main, Dallas | Main/Dallas/Detroit only; disabled or unreachable nodes excluded. |
-| Primary currentStateId | agree | 117a42a7...2aae9bdd |
-| Primary candidateStateId | agree | f0427574...2a2ef609 |
-| All reachable currentStateId | agree | 117a42a7...2aae9bdd |
-| All reachable candidateStateId | agree | f0427574...2a2ef609 |
+| Primary nodes compared | Main, Dallas, Detroit | Main/Dallas/Detroit only; disabled or unreachable nodes excluded. |
+| Primary currentStateId | agree | 5b7661b0...3dd98c8d |
+| Primary candidateStateId | agree | 8fc36e21...bc719c6b |
+| All reachable currentStateId | agree | 5b7661b0...3dd98c8d |
+| All reachable candidateStateId | agree | 8fc36e21...bc719c6b |
 | Mismatches | none | No reachable-node state mismatches observed. |
 
 ## Relay Telemetry
 
-| Node | Transport | Observations | First Arrivals | Accepted | Duplicates | Rejected/Stale | Median Delta | P95 Delta | Avg Payload | UDP Present |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Main | -- | 0 | 0 | 0 | 0 | 0 | -- | -- | -- | no |
-| Dallas | websocket | 8 | 4 | 3 | 5 | 5 | 0.0 ms | 8346.4 ms | 3669 B | no |
-| Dallas | http-json | 10 | 1 | 1 | 9 | 9 | 46.9 ms | 619.4 ms | -- | no |
-| Detroit | -- | 0 | 0 | 0 | 0 | 0 | -- | -- | -- | no |
-| Evomining | -- | 0 | 0 | 0 | 0 | 0 | -- | -- | -- | no |
+| Node | Proof Class | Relay Stage | Transport | Observations | First Arrivals | Accepted | Duplicates | Not Accepted | Median Delta | P95 Delta | Avg Payload | UDP Present |
+| --- | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Main | pulse | validated | udp | 681 | 596 | 591 | 85 | 90 | 0.0 ms | 0.8 ms | 899 B | yes |
+| Main | pulse | validated | websocket | 684 | 87 | 89 | 552 | 595 | 4.1 ms | 249.9 ms | 4418 B | yes |
+| Main | pulse | validated | http-json | 696 | 15 | 16 | 38 | 680 | 138.1 ms | 352.7 ms | 2740 B | yes |
+| Main | work | validated | udp | 9 | 2 | 2 | 7 | 7 | 26.1 ms | 251.4 ms | 909 B | yes |
+| Main | work | validated | websocket | 9 | 1 | 1 | 8 | 8 | 35.0 ms | 274.9 ms | 4485 B | yes |
+| Main | work | validated | http-json | 6 | 0 | 0 | 6 | 6 | 153.2 ms | 199.9 ms | 2777 B | yes |
+| Dallas | pulse | validated | udp | 1381 | 1296 | 1194 | 147 | 187 | 0.0 ms | 0.1 ms | 893 B | yes |
+| Dallas | pulse | validated | websocket | 1381 | 166 | 160 | 1024 | 1221 | 1.6 ms | 9.4 ms | 4436 B | yes |
+| Dallas | pulse | validated | http-json | 1457 | 41 | 41 | 207 | 1416 | 8.8 ms | 120.5 ms | -- | yes |
+| Dallas | work | validated | udp | 9 | 3 | 2 | 7 | 7 | 64.0 ms | 263.8 ms | 909 B | yes |
+| Dallas | work | validated | websocket | 9 | 1 | 1 | 8 | 8 | 68.2 ms | 281.9 ms | 4490 B | yes |
+| Dallas | work | validated | http-json | 12 | 0 | 0 | 12 | 12 | 48.7 ms | 1223.4 ms | -- | yes |
+| Detroit | work | validated | udp | 1386 | 900 | 753 | 633 | 633 | 0.0 ms | 45.3 ms | 893 B | yes |
+| Detroit | work | validated | websocket | 1387 | 633 | 558 | 829 | 829 | 4.0 ms | 457.2 ms | 4436 B | yes |
+| Detroit | work | validated | http-json | 1405 | 96 | 88 | 1317 | 1317 | 41.7 ms | 790.0 ms | 2752 B | yes |
+| Evomining | pulse | validated | udp | 687 | 616 | 612 | 75 | 75 | 0.0 ms | 0.2 ms | 887 B | yes |
+| Evomining | pulse | validated | websocket | 688 | 68 | 68 | 620 | 620 | 3.9 ms | 16.1 ms | 4452 B | yes |
+| Evomining | pulse | validated | http-json | 690 | 10 | 10 | 680 | 680 | 10.7 ms | 176.3 ms | -- | yes |
+
+`Not Accepted` includes duplicate observations, so it overlaps the duplicate column and must not be added to it.
 
 ## V2.1-Specific Signals
 
 | Node | Payout Snapshots | Snapshot Paid | GridPool Blocks | State Imports | State Rejections | Stale Chain Tips | Fresh Parents | Relay Accepted | Relay Rejected |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Main | 2 | 0 | 0 | 0 | 0 | 1 | 1 | 0 | 0 |
-| Dallas | 46 | 0 | 0 | 0 | 0 | 6 | 0 | 4 | 14 |
-| Detroit | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Evomining | 70 | 0 | 0 | 0 | 0 | 59 | 0 | 0 | 0 |
+| Main | 134 | 0 | 0 | 0 | 0 | 0 | 2 | 699 | 1386 |
+| Dallas | 126 | 0 | 0 | 0 | 0 | 0 | 0 | 1398 | 2851 |
+| Detroit | 121 | 0 | 0 | 0 | 0 | 0 | 0 | 1399 | 2779 |
+| Evomining | 156 | 0 | 0 | 0 | 0 | 0 | 0 | 690 | 1375 |
 
 Missing explicit runtime counters:
 
@@ -68,14 +83,7 @@ Smallest useful runtime/API additions: add a `/api/network/v21-consensus-telemet
 
 ## Data Quality Notes
 
-- Main: Peer dallas.gridpool.net has no recorded lastSuccessUtc.
-- Main: Peer evomining.farted.net has no recorded lastSuccessUtc.
-- Main: Duplicate peer entry observed for evomining.farted.net.
-- Main: Duplicate peer entry observed for dallas.gridpool.net.
-- Main: No UDP relay observations in selected window.
-- Dallas: No UDP relay observations in selected window.
-- Detroit: endpoint not configured/enabled.
-- Evomining: No UDP relay observations in selected window.
+- Detroit: Duplicate peer entry observed for dallas.gridpool.net.
 - Manual node restarts/interventions are not detectable from the public API unless they produce network events; add process uptime/start time for cleaner interpretation.
 
 ## Paper-Ready Interpretation

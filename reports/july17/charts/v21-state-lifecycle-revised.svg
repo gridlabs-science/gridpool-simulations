@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">GridPool V2.1 state lifecycle</title>
+  <desc id="desc">An ordinary Bitcoin block snapshots the unpaid Work Set without removing proofs. A GridPool block pays the prior active suffix, inserts its block proof, removes only paid proof IDs, and snapshots the remaining reserve.</desc>
+  <defs>
+    <style>
+      .bg { fill: #f7f8f5; } .box { fill: #fff; stroke: #26372e; stroke-width: 2; rx: 16; }
+      .work { fill: #dfeee2; stroke: #2f6844; stroke-width: 2; rx: 16; }
+      .snap { fill: #f8e7b5; stroke: #876618; stroke-width: 2; rx: 16; }
+      .event { fill: #e7edf7; stroke: #34577a; stroke-width: 2; rx: 16; }
+      .warn { fill: #f5dfdc; stroke: #8d3f36; stroke-width: 2; rx: 14; }
+      .title { font: 700 29px sans-serif; fill: #142019; } .head { font: 700 20px sans-serif; fill: #142019; }
+      .body { font: 16px sans-serif; fill: #26372e; } .small { font: 14px sans-serif; fill: #4a5a51; }
+      .mono { font: 15px monospace; fill: #142019; } .arrow { stroke: #65776d; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .dash { stroke-dasharray: 8 6; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#65776d"/></marker>
+  </defs>
+  <rect class="bg" width="1200" height="760"/>
+  <text class="title" x="600" y="44" text-anchor="middle">V2.1 keeps snapshot, reserve, and payment lineage separate</text>
+
+  <rect class="work" x="55" y="90" width="330" height="150"/>
+  <text class="head" x="220" y="125" text-anchor="middle">Unpaid Work Set W(h)</text>
+  <text class="body" x="220" y="154" text-anchor="middle">Valid proof IDs, ranked by</text>
+  <text class="body" x="220" y="177" text-anchor="middle">achieved difficulty</text>
+  <text class="mono" x="220" y="202" text-anchor="middle">top 897 retained</text>
+  <text class="small" x="220" y="225" text-anchor="middle">Bounded reserve; duplicates removed</text>
+
+  <rect class="snap" x="815" y="90" width="330" height="150"/>
+  <text class="head" x="980" y="125" text-anchor="middle">Active payout suffix S(h)</text>
+  <text class="body" x="980" y="154" text-anchor="middle">Optional support output</text>
+  <text class="body" x="980" y="177" text-anchor="middle">+ shared outputs</text>
+  <text class="mono" x="980" y="202" text-anchor="middle">up to 299 post-slot-0 outputs</text>
+  <text class="small" x="980" y="225" text-anchor="middle">Slot 0 is miner-specific and is not in S(h)</text>
+
+  <rect class="box" x="430" y="100" width="330" height="130"/>
+  <text class="head" x="595" y="135" text-anchor="middle">Mining template</text>
+  <text class="mono" x="595" y="169" text-anchor="middle">slot 0 + S(h) + commitments</text>
+  <text class="small" x="595" y="200" text-anchor="middle">Each miner controls its own slot-0 destination</text>
+  <path class="arrow" d="M 815 165 L 770 165"/>
+
+  <rect class="event" x="80" y="305" width="455" height="106"/>
+  <text class="head" x="307" y="338" text-anchor="middle">Ordinary Bitcoin block B(h+1)</text>
+  <text class="body" x="307" y="370" text-anchor="middle">No GridPool payout occurred</text>
+  <text class="small" x="307" y="395" text-anchor="middle">Local chain-tip observation is the snapshot boundary</text>
+
+  <rect class="event" x="665" y="305" width="455" height="106"/>
+  <text class="head" x="892" y="338" text-anchor="middle">GridPool block B(h+1)</text>
+  <text class="body" x="892" y="370" text-anchor="middle">Validated coinbase pays S(h)</text>
+  <text class="small" x="892" y="395" text-anchor="middle">The block proof is recorded before payment transition</text>
+
+  <path class="arrow" d="M 220 240 L 220 295"/>
+  <path class="arrow" d="M 980 240 C 980 270 892 270 892 295"/>
+
+  <rect class="work" x="55" y="480" width="475" height="180"/>
+  <text class="head" x="292" y="516" text-anchor="middle">Ordinary-block transition</text>
+  <text class="body" x="86" y="551">1. Freeze S(h+1) from highest-ranked unpaid proofs.</text>
+  <text class="body" x="86" y="582">2. Do not remove any proof from W(h).</text>
+  <text class="body" x="86" y="613">3. Mine current-parent proofs on B(h+1).</text>
+  <text class="mono" x="292" y="642" text-anchor="middle">W(h+1) starts as W(h)</text>
+
+  <rect class="work" x="670" y="480" width="475" height="180"/>
+  <text class="head" x="907" y="516" text-anchor="middle">GridPool-block transition</text>
+  <text class="body" x="700" y="548">1. Insert the validated block proof into W.</text>
+  <text class="body" x="700" y="578">2. Remove exactly the proof IDs paid by S(h).</text>
+  <text class="body" x="700" y="608">3. Freeze S(h+1) from the remaining reserve.</text>
+  <text class="small" x="907" y="640" text-anchor="middle">The finder remains eligible unless it was already paid.</text>
+
+  <path class="arrow" d="M 307 411 L 292 470"/>
+  <path class="arrow" d="M 892 411 L 907 470"/>
+  <rect class="warn" x="130" y="696" width="940" height="44"/>
+  <text class="body" x="600" y="724" text-anchor="middle">A bare chain-tip event may create a snapshot; only a validated GridPool block proof may remove paid lineage.</text>
+</svg>

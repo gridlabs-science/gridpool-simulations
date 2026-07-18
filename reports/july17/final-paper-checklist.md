@@ -1,6 +1,7 @@
 # July 17 Final Paper Checklist
 
-Status: working checklist for finishing the GridPool V2.1 paper before July 17.
+Status: complete for the July 17 research update. Canonical paper:
+`reports/july17/gridpool-july17-research-update-v1.md`.
 
 Goal: make the paper independently checkable, falsifiable, connected to live evidence, and clearly grounded in V2.1 rather than older branch-selection framing.
 
@@ -8,7 +9,7 @@ Goal: make the paper independently checkable, falsifiable, connected to live evi
 
 ### 1. V2.1 State-Transition Diagram
 
-Status: done in `reports/july17/gridpool-july17-handout.md` with `charts/v21_state_transition.svg`.
+Status: done in the canonical paper with `charts/v21-state-lifecycle-revised.svg`.
 
 Purpose: make the protocol mechanics click faster than prose.
 
@@ -32,7 +33,7 @@ Acceptance criteria:
 
 ### 2. Concrete Split/Merge Toy Example
 
-Status: done in `reports/july17/gridpool-july17-handout.md` with `charts/v21_split_merge_example.svg`.
+Status: done in the canonical paper with `charts/v21-boundary-convergence-revised.svg`.
 
 Purpose: answer the strongest critique directly: why no "heaviest stale branch" vote is needed for ordinary divergence.
 
@@ -53,7 +54,7 @@ Acceptance criteria:
 
 ### 3. One-Page Claims Table
 
-Status: done in `reports/july17/gridpool-july17-handout.md`.
+Status: done in the canonical paper.
 
 Purpose: make the paper rigorous and prevent overclaiming.
 
@@ -82,7 +83,7 @@ Acceptance criteria:
 
 ### 4. Threat Model Summary
 
-Status: done in `reports/july17/gridpool-july17-handout.md`.
+Status: done in the canonical paper.
 
 Purpose: centralize the caveats instead of scattering them through prose.
 
@@ -111,7 +112,9 @@ Acceptance criteria:
 
 ### 5. Regression Test Summary
 
-Status: done by companion agent and incorporated in `reports/july17/gridpool-july17-handout.md`. Runtime verification reported: `dotnet test boot.tests/boot.tests.csproj` passed with 92 tests.
+Status: done and incorporated in the canonical paper. The full suite passed on
+`2026-07-14`; source contains `102` test methods, including the new
+cross-active-state rejection regression.
 
 Purpose: make the project look engineered, not just theorized.
 
@@ -140,7 +143,12 @@ Acceptance criteria:
 
 ### 6. Live Network Appendix
 
-Status: partial in `reports/july17/gridpool-july17-handout.md` as `Public Network Summary`; Detroit node and clean telemetry window still pending.
+Status: done in the canonical paper and generated appendix under
+`reports/july17/live-telemetry/`. The July 17 query includes Main, Dallas,
+Detroit, and Evomining; every node was reachable, advertised UDP relay v5, and
+agreed on current and candidate state IDs. The final bounded query covers 24
+hours; the clean chain-tip comparison covers 265 Main-origin receiver/block
+observations at Dallas and Detroit.
 
 Purpose: connect the paper to running public infrastructure without overstating field evidence.
 
@@ -167,7 +175,7 @@ Acceptance criteria:
 
 ### 7. Economic Intuition Box
 
-Status: done in `reports/july17/gridpool-july17-handout.md`.
+Status: done in the canonical paper.
 
 Purpose: explain why GridPool's incentives differ from centralized pools and P2Pool in plain language.
 
@@ -187,7 +195,8 @@ Acceptance criteria:
 
 ### 8. Reproducibility Appendix
 
-Status: done in `reports/july17/gridpool-july17-handout.md`, including the V2.1 boundary-inclusion model command and long-run output paths.
+Status: done in the canonical paper, including the V2.1 boundary-inclusion
+model command and long-run output paths.
 
 Purpose: make the claims independently checkable and falsifiable.
 
@@ -213,7 +222,7 @@ Acceptance criteria:
 
 ### 9. Funding / Resource Roadmap
 
-Status: done in `reports/july17/gridpool-july17-handout.md`.
+Status: done in the canonical paper.
 
 Purpose: show what additional resources unlock.
 
@@ -237,7 +246,8 @@ Acceptance criteria:
 
 ### V2.1 Split-Recovery / Boundary-Inclusion Simulation
 
-Status: done and incorporated in `reports/july17/gridpool-july17-handout.md` with long-run outputs from `reports/generated/v21_latency_recovery_july17_long/`.
+Status: done and incorporated in the canonical paper with long-run outputs from
+`reports/generated/v21_latency_recovery_july17_long/`.
 
 Purpose: directly support the updated V2.1 claim:
 
@@ -264,6 +274,30 @@ Acceptance criteria:
 - Present as V2.1-specific evidence, not old branch-choice scoring.
 - Include model assumptions near the chart.
 - Avoid implying that latency is irrelevant.
+
+### Selective-Inclusion / Cross-State Credit Stress Test
+
+Status: done and incorporated in the canonical paper, with outputs under
+`reports/generated/v21_selective_inclusion_long/`.
+
+Result:
+
+- A deliberately permissive rule that credits an exclusionary miner's proofs
+  across a genuinely different active payout state creates a material reward
+  transfer.
+- The reference runtime does not expose that transition through tested
+  candidate import: candidate IDs are anchored to the active state and the new
+  `CandidateImportRejectsCurrentParentProofFromDifferentActiveSnapshotAsync`
+  regression passes.
+- Present the model as a constraint on future split-recovery design, not a
+  confirmed V2.1 exploit.
+
+Remaining action:
+
+- Specify bounded recovery for a genuine active-snapshot split without
+  unconditional cross-state credit.
+- Add payment-lineage and direct-ingress tests before calling V2.1
+  consensus-complete.
 
 ## Lower Priority / Do Not Spend Time Before July 17
 
