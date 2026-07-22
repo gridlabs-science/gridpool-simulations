@@ -7,13 +7,24 @@ Cross-project decisions and the curated evidence interpretation live in the
 This repository remains canonical for models, configurations, generated data,
 and research reports.
 
-Current July 17 research update:
+## Current Research Entry Points
+
+V2.2 reconciliation research:
+
+- [V2.2 monotonic reconciliation model](run_v22_snapshot_reconciliation.py)
+- [V2.2 protocol interpretation](https://github.com/gridlabs-science/gridpool-handbook/blob/main/handbook/protocol-v22.md)
+
+The model tests convergence and adversarial cases for the proposed mechanism;
+it does not define consensus or prove protocol safety.
+
+V2.1 research baseline:
 
 - [GridPool V2.1 research update](reports/july17/gridpool-july17-research-update-v1.md)
 - [Printable PDF](reports/july17/gridpool-july17-research-update-v1.pdf)
 - [Live network appendix](reports/july17/live-telemetry/live-network-appendix.md)
 
-Superseded handouts and the editor-annotated source are retained under
+The July 17 report predates V2.2 activation and remains the evidence baseline
+for the V2.1 statistical design. Superseded handouts and the editor-annotated source are retained under
 `reports/july17/archive/`.
 
 This repository is intentionally separate from the live GridPool node implementation. That keeps mechanism-design research, long Monte Carlo sweeps, generated charts, and academic notes from dirtying the runtime codebase when urgent node fixes need to ship.
@@ -160,6 +171,19 @@ This run compares an inclusive honest baseline with a miner that excludes
 other proofs while either relaying its own proofs (`free_ride`) or withholding
 them (`private_split`). See `docs/v21-selective-inclusion-model.md` for the
 threat model and interpretation gates.
+
+Draft V2.2 monotonic snapshot reconciliation:
+
+```bash
+python3 run_v22_snapshot_reconciliation.py \
+  --profile quick \
+  --out-dir reports/generated/v22_snapshot_reconciliation_quick
+```
+
+This model compares V2.1 split persistence with deterministic proof-set union,
+then tests selective omission, intentional stale-proof insertion, and
+incremental template churn. Its economic output is exploratory and does not
+constitute a protocol-safety proof.
 
 Ranked-proof aggregate and per-miner sampling calibration:
 
